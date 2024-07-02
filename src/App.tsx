@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const Home = lazy(() => import("./Home"));
 const GrimwildHome = lazy(() => import("./dice/Home"));
 const GmCrucible = lazy(() => import("./dice/GmCrucible"));
+const SpellCrucible = lazy(() => import("./dice/SpellCrucible"));
 
 const darkTheme = createTheme({
     typography: {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
     {
         path: "/dice/gmcrucible",
         element: <GmCrucible />,
+    },
+    {
+        path: "/dice/spellcrucible",
+        element: <SpellCrucible />,
     },
 ]);
 

@@ -6,9 +6,13 @@ import {
     Grid,
     Typography,
 } from "@mui/material";
-import D66, { SelectedCell } from "./D66";
+import D66 from "./D66";
 import CasinoIcon from "@mui/icons-material/Casino";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { useEffect, useState } from "react";
+import _ from "lodash";
 
 function d(sides: number): number {
     return Math.floor(Math.random() * sides);
@@ -25,14 +29,25 @@ function CrucibleResults({
     options: string[][];
     n?: number;
 }) {
-    const defaultSelection = () => options.map((row) => row[d(row.length)]);
+    const defaultSelection = () => {
+        const shuffledOptions = _.shuffle(options);
+        return shuffledOptions.slice(0, n).map((row) => row[d(row.length)]);
+    };
+    const defaultOf = () => d(2) == 1;
     const [selected, setSelected] = useState<string[]>(defaultSelection());
+    const [of, setOf] = useState(defaultOf());
     useEffect(() => {
         setSelected(defaultSelection());
+        setOf(defaultOf())
     }, [options]);
 
-    if (options.length == 0 && !options.some((row) => row.length > 0)) {
+    if (options.length == 0 || !options.some((row) => row.length > 0)) {
         return null;
+    }
+    let selectedForDisplay = selected;
+    if (of) {
+        selectedForDisplay = [...selected];
+        selectedForDisplay.splice(1, 0, "of")
     }
     return (
         <Card sx={{ display: "inline-block" }}>
@@ -62,9 +77,29 @@ function CrucibleResults({
                         ))
                     )}
                     <Grid item xs={12}>
-                        {selected.map((selection) => (
-                            <Typography variant="h3">{selection}</Typography>
-                        ))}
+                        <Typography variant="h3">
+                            {selectedForDisplay.join(" ")}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            startIcon={<SwapHorizIcon />}
+                            onClick={() => {
+                                setSelected(selected.toReversed());
+                            }}
+                        >
+                            Swap
+                        </Button>
+                        <Button
+                            variant="contained"
+                            startIcon={of ? <RemoveIcon /> : <AddIcon/>}
+                            onClick={() => {
+                                setOf((of) => !of);
+                            }}
+                        >
+                            Of
+                        </Button>
                     </Grid>
                 </Grid>
             </CardContent>
