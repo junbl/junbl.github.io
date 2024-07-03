@@ -9,6 +9,9 @@ const GrimwildHome = lazy(() => import("./dice/Home"));
 const GmCrucible = lazy(() => import("./dice/GmCrucible"));
 const SpellCrucible = lazy(() => import("./dice/SpellCrucible"));
 
+
+export const pink = "#F48FB1";
+
 const darkTheme = createTheme({
     typography: {
         fontSize: 14,
@@ -22,7 +25,7 @@ const darkTheme = createTheme({
             primary: "#e8e8e8",
         },
         primary: {
-            main: "#24D1E7",
+            main: "#75ade6",
             light: "#e8e8e8",
         },
         secondary: {
@@ -35,7 +38,7 @@ const darkTheme = createTheme({
             main: "#ffc966",
         },
         info: {
-            main: "#75ade6",
+            main: "#24D1E7",
         },
         success: {
             main: "#a9d274",

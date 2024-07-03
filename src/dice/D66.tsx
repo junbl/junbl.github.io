@@ -61,8 +61,12 @@ export default function D66({
                                     sx={
                                         selected.includes(cell)
                                             ? {
-                                                  backgroundColor: "#75ade6",
-                                                  fontStyle: "bold",
+                                                  backgroundColor: (theme) =>
+                                                      theme.palette.primary
+                                                          .main,
+                                                  color: (theme) =>
+                                                      theme.palette.background
+                                                          .default,
                                               }
                                             : undefined
                                     }
