@@ -7,8 +7,10 @@ import { darkTheme } from "./theme";
 
 const Home = lazy(() => import("./home/Home"));
 const GrimwildHome = lazy(() => import("./dice/Home"));
-const GmCrucible = lazy(() => import("./dice/GmCrucible"));
-const SpellCrucible = lazy(() => import("./dice/SpellCrucible"));
+const GmCrucible = lazy(() => import("./dice/crucible/GmCrucible"));
+const SpellCrucible = lazy(() => import("./dice/crucible/SpellCrucible"));
+const RollsWithThornsAnalysis = lazy(() => import("./dice/analysis/RollsWithThornsAnalysis"));
+const DiminishingPoolsAnalysis = lazy(() => import("./dice/analysis/DiminishingPoolsAnalysis"));
 
 const router = createBrowserRouter([
     {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
     {
         path: "/dice/spellcrucible",
         element: <SpellCrucible />,
+    },
+    {
+        path: "/dice/analysis/rollswiththorns",
+        element: <RollsWithThornsAnalysis />,
+    },
+    {
+        path: "/dice/analysis/diminishingpools",
+        element: <DiminishingPoolsAnalysis />,
     },
 ]);
 

@@ -20,7 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import _ from "lodash";
-import { colors } from "../theme";
+import { colors } from "../../theme";
 
 export function d(sides: number): number {
     return Math.floor(Math.random() * sides);
