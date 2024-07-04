@@ -13,7 +13,8 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
     const classes = useStyles();
     return (
         <TableContainer component={(props) => <Paper className={classes.root} {...props}></Paper>}>
-            <Table>
+            {/* <Table padding={{xs: "none", sm: "normal"}}> */}
+            <Table >
                 <TableBody>
                     {table.map((row, r) => (
                         <TableRow
@@ -22,9 +23,9 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
                                 // backgroundColor: "yellow",
                                 // fontSize: "100pt",
                                 // borderBottom: "2px solid black",
-                                // "& td": {
-                                //     fontSize: "1rem",
-                                // },
+                                "& td": {
+                                    fontSize: {xs: "0.8rem", sm: "1rem"}
+                                },
                             }}
                         >
                             {row.map((cell, c) => (

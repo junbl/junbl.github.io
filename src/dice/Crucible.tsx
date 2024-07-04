@@ -85,7 +85,7 @@ function CrucibleResults({
     let selectedForDisplay = selected;
     if (of) {
         selectedForDisplay = [...selected];
-        selectedForDisplay.splice(1, 0, "of");
+        selectedForDisplay.splice(selected.length - 1, 0, "of");
     }
 
     const onOptionClick = (
@@ -152,7 +152,7 @@ function CrucibleResults({
                         alignItems: "center",
                     }}
                 >
-                    <Grid container justifyContent="center" alignItems="center">
+                    <Grid container justifyContent="center" alignItems="center" rowSpacing="5px">
                         {options.map((row, rowIndex) =>
                             row.map((option) => {
                                 const optionSelectedIndex = selected.indexOf(option);
@@ -178,7 +178,11 @@ function CrucibleResults({
                             })
                         )}
                         <Grid item xs={12} margin="10px">
-                            <Typography variant="h3" align="center">
+                            <Typography
+                                variant="h3"
+                                align="center"
+                                sx={{ minHeight: { xs: "120px" } }}
+                            >
                                 {selectedForDisplay.join(" ")}
                             </Typography>
                         </Grid>
@@ -370,14 +374,14 @@ export default function Crucible({
                                     style={{
                                         display: "flex",
                                         justifyContent: "center",
-                                        // maxWidth: "1000px",
+                                        maxWidth: "95vw",
+                                        overflowX: "scroll",
                                     }}
                                 >
                                     <Card
                                         sx={{
                                             display: "flex",
                                             justifyContent: "center",
-                                            overflowX: "scroll",
                                         }}
                                     >
                                         {titles && titles[index] != undefined ? (

@@ -8,7 +8,7 @@ export default function GmCrucible() {
     document.title = "GM Crucible";
     return (
         <>
-            <h1>GM Crucible</h1>
+            <h1 style={{ marginLeft: 20 }}>GM Crucible</h1>
             <Divider sx={{ marginBottom: 8 }} />
             <Crucible tables={[gm1, gm2]} />
             <GrimwildFooter />

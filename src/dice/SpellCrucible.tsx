@@ -10,7 +10,7 @@ export default function SpellCrucible() {
     document.title = "Spell Crucible";
     return (
         <>
-            <h1>Spell Crucible</h1>
+            <h1 style={{ marginLeft: 20 }}>Spell Crucible</h1>
             <Divider sx={{ marginBottom: 8 }} />
             <Crucible
                 tables={[spellStyle, spellMaterial, spellForm]}
