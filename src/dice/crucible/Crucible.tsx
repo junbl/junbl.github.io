@@ -181,7 +181,7 @@ function CrucibleResults({
                             <Typography
                                 variant="h3"
                                 align="center"
-                                sx={{ minHeight: { xs: "120px" } }}
+                                sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
                                 {selectedForDisplay.join(" ")}
                             </Typography>
