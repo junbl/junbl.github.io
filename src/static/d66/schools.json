@@ -1,0 +1,10 @@
+[
+    { "name": "Abjuration", "color": "cyan" },
+    { "name": "Conjuration", "color": "green" },
+    { "name": "Divination", "color": "white" },
+    { "name": "Enchantment", "color": "pink" },
+    { "name": "Evocation", "color": "red" },
+    { "name": "Illusion", "color": "purple" },
+    { "name": "Necromancy", "color": "teal" },
+    { "name": "Transmutation", "color": "yellow" }
+]
