@@ -1,12 +1,4 @@
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Theme,
-} from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 export type SelectedCell = {
@@ -28,11 +20,11 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
                             key={r}
                             sx={{
                                 // backgroundColor: "yellow",
-                                fontSize: "100pt",
+                                // fontSize: "100pt",
                                 // borderBottom: "2px solid black",
-                                "& td": {
-                                    fontSize: "1.25rem",
-                                },
+                                // "& td": {
+                                //     fontSize: "1rem",
+                                // },
                             }}
                         >
                             {row.map((cell, c) => (
