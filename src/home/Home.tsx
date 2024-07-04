@@ -1,4 +1,4 @@
-import logo from './static/turtle.svg';
+import logo from '../static/turtle.svg';
 export default function Home() {
   return <div className="App">
     <header className="App-header">
