@@ -20,7 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import _ from "lodash";
-import { colors } from "../App";
+import { colors } from "../theme";
 
 export function d(sides: number): number {
     return Math.floor(Math.random() * sides);
@@ -239,23 +239,6 @@ function CrucibleResults({
         </Card>
     );
 }
-
-// function isString(data: unknown): data is string {
-//     return typeof data === "string";
-// }
-// function selectedOption(
-//     options: AddlOption[] | undefined,
-//     selected: OptionIndex
-// ): [typeof options] extends [undefined] ? undefined : AddlOption {
-//     if (isString(selected)) {
-//         selected = Number(selected);
-//     }
-//     if (options != undefined) {
-//         return options[selected];
-//     } else {
-//         return undefined;
-//     }
-// }
 
 type OptionIndex = string | number;
 function AdditionalOptions({
