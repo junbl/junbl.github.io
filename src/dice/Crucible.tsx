@@ -15,6 +15,7 @@ import {
 import D66 from "./D66";
 import CasinoIcon from "@mui/icons-material/Casino";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import SwapCallsIcon from "@mui/icons-material/SwapCalls";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -67,6 +68,8 @@ function CrucibleResults({
     const [selectedAdditionalOption, setSelectedAdditionalOption] = useState<OptionIndex>(
         randomAdditionalOption()
     );
+    const c = additionalOptions && additionalOptions[Number(selectedAdditionalOption)].color;
+    const selectedColor = c && colors[c];
     const rerollAll = () => {
         const [s, o] = defaultSelection();
         setSelected(s);
@@ -83,8 +86,64 @@ function CrucibleResults({
         selectedForDisplay = [...selected];
         selectedForDisplay.splice(1, 0, "of");
     }
+
+    const onOptionClick = (
+        option: string,
+        optionSelectedIndex: number,
+        optionIsSelected: boolean,
+        row: string[],
+        rowIndex: number
+    ) => {
+        const newSelected = [...selected];
+        if (optionIsSelected) {
+            // console.debug("already selected, removing");
+            newSelected.splice(optionSelectedIndex, 1);
+        } else if (options.length == n) {
+            // console.debug(`max options selected, setting option for ${rowIndex}`);
+            newSelected[rowIndex] = option;
+        } else {
+            let otherSelectedInRowIndex = selected.findIndex((s) => row.includes(s));
+            if (newSelected.length >= n) {
+                let indexToReplace = 0;
+                if (otherSelectedInRowIndex == -1) {
+                    let closestRowIndex = 0;
+                    for (const [rowIndexForSelected, selectedIndex] of selected.map(
+                        (s, index) => [options.findIndex((row) => row.includes(s)), index] as const
+                    )) {
+                        if (
+                            Math.abs(rowIndexForSelected - rowIndex) <
+                            Math.abs(closestRowIndex - rowIndex)
+                        ) {
+                            closestRowIndex = rowIndexForSelected;
+                            indexToReplace = selectedIndex;
+                        }
+                    }
+                } else {
+                    // console.debug("selected more than max options, replacing other in row");
+                    indexToReplace = otherSelectedInRowIndex;
+                }
+                newSelected.splice(indexToReplace, 1, option);
+            } else {
+                if (otherSelectedInRowIndex !== -1) {
+                    // console.debug("selected less than max + option in row already selected");
+                    newSelected.splice(otherSelectedInRowIndex, 1, option);
+                } else {
+                    // console.debug("selected less than max options, inserting at start");
+                    newSelected.unshift(option);
+                }
+            }
+        }
+        setSelected(newSelected);
+    };
     return (
-        <Card sx={{ display: "flex", maxWidth: "600px", textAlign: "center" }}>
+        <Card
+            sx={{
+                border: `2px solid ${selectedColor}`,
+                display: "flex",
+                maxWidth: "600px",
+                textAlign: "center",
+            }}
+        >
             <CardContent sx={{ marginTop: "10px" }}>
                 <div
                     style={{
@@ -93,33 +152,22 @@ function CrucibleResults({
                     }}
                 >
                     <Grid container justifyContent="center" alignItems="center">
-                        {options.map((row, index) =>
+                        {options.map((row, rowIndex) =>
                             row.map((option) => {
-                                const optionIndex = selected.indexOf(option);
+                                const optionSelectedIndex = selected.indexOf(option);
+                                const optionIsSelected = optionSelectedIndex != -1;
                                 return (
                                     <Grid key={option} item xs={12 / row.length}>
                                         <Button
-                                            variant={optionIndex != -1 ? "contained" : "outlined"}
+                                            variant={optionIsSelected ? "contained" : "outlined"}
                                             onClick={() => {
-                                                const newSelected = [...selected];
-                                                if (optionIndex != -1) {
-                                                    newSelected.splice(optionIndex, 1);
-                                                } else if (options.length == n) {
-                                                    newSelected[index] = option;
-                                                } else {
-                                                    if (newSelected.length >= n) {
-                                                        let i = newSelected.findIndex((s) =>
-                                                            row.includes(s)
-                                                        );
-                                                        if (i == -1) {
-                                                            i = 0;
-                                                        }
-                                                        newSelected.splice(i, 1, option);
-                                                    } else {
-                                                        newSelected.push(option);
-                                                    }
-                                                }
-                                                setSelected(newSelected);
+                                                onOptionClick(
+                                                    option,
+                                                    optionSelectedIndex,
+                                                    optionIsSelected,
+                                                    row,
+                                                    rowIndex
+                                                );
                                             }}
                                         >
                                             {option}
@@ -159,7 +207,7 @@ function CrucibleResults({
                             <Grid item>
                                 <Button
                                     variant="contained"
-                                    startIcon={<SwapHorizIcon />}
+                                    startIcon={<SwapCallsIcon />}
                                     onClick={() => {
                                         setSelected(selected.toReversed());
                                         setOf((of) => !of);
@@ -192,9 +240,22 @@ function CrucibleResults({
     );
 }
 
-function isString(data: unknown): data is string {
-    return typeof data === "string";
-}
+// function isString(data: unknown): data is string {
+//     return typeof data === "string";
+// }
+// function selectedOption(
+//     options: AddlOption[] | undefined,
+//     selected: OptionIndex
+// ): [typeof options] extends [undefined] ? undefined : AddlOption {
+//     if (isString(selected)) {
+//         selected = Number(selected);
+//     }
+//     if (options != undefined) {
+//         return options[selected];
+//     } else {
+//         return undefined;
+//     }
+// }
 
 type OptionIndex = string | number;
 function AdditionalOptions({
@@ -217,11 +278,13 @@ function AdditionalOptions({
             onChange={(e: SelectChangeEvent) => setSelected(e.target.value)}
             autoWidth
             sx={{
+                minWidth: "200px",
                 marginTop: "20px",
                 // minWidth: "100%",
                 fontSize: "14pt",
-                backgroundColor: selectedColor && colors[selectedColor],
-                color: textColor,
+                border: `2px solid ${selectedColor && colors[selectedColor]}`,
+                // backgroundColor:
+                // color: textColor,
             }}
         >
             {options.map((option, index) => (
@@ -266,10 +329,7 @@ export default function Crucible({
         <>
             <div style={{ display: "flex", alignContent: "center" }}>
                 <Grid container spacing={2} justifyContent="center">
-                    <Grid
-                        item
-                        xs={12}
-                    >
+                    <Grid item xs={12}>
                         <div
                             style={{
                                 display: "flex",
@@ -306,7 +366,7 @@ export default function Crucible({
                     </Grid>
                     {tables.map((table, index) => {
                         return (
-                            <Grid key={index} item >
+                            <Grid key={index} item>
                                 {/* xs={12} lg={tables.length % 2 ? 12 : 6} xl={tables.length % 3 ? 12 : 4}> */}
                                 <div
                                     style={{
