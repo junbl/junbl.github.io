@@ -1,17 +1,19 @@
 import { createTheme } from "@mui/material/styles";
 
 export const colors = {
-    pink: "#F48FB1",
-    blue: "#75ade6",
-    white: "#e8e8e8",
-    purple: "#bf94e6",
     red: "#ff6673",
-    yellow: "#ffc966",
-    cyan: "#87DFEB",
-    green: "#a9d274",
     orange: "#fc9569",
+    yellow: "#ffc966",
+    green: "#a9d274",
     teal: "#18E3C8",
-    black: "#1D1F28"
+    cyan: "#87DFEB",
+    blue: "#75ade6",
+    purple: "#bf94e6",
+    pink: "#F48FB1",
+    white: "#e8e8e8",
+    lightGray: "#a2a3a6",
+    darkGray: "#262626",
+    black: "#1D1F28",
 };
 
 export const darkTheme = createTheme({
@@ -21,7 +23,7 @@ export const darkTheme = createTheme({
     palette: {
         mode: "dark",
         background: {
-            default: "#262626",
+            default: colors.darkGray,
         },
         text: {
             primary: colors.white,

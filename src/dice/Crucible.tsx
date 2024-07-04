@@ -18,7 +18,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import SwapCallsIcon from "@mui/icons-material/SwapCalls";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import { colors } from "../theme";
 
@@ -41,6 +41,7 @@ function CrucibleResults({
     n?: number;
     additionalOptions?: AddlOption[];
 }) {
+    const rollButtonRef = useRef<SVGSVGElement>(null);
     const defaultSelection = () => {
         if (options.length == 0 || options[0].length == 0) {
             return [[] as string[], false] as const;
@@ -231,8 +232,14 @@ function CrucibleResults({
             </CardContent>
             <CardActions>
                 <Tooltip title="Select new options without rerolling on the tables">
-                    <IconButton onClick={rerollAll} sx={{ marginLeft: "auto" }}>
-                        <CasinoIcon />
+                    <IconButton
+                        onClick={() => {
+                            rollDiceAnimation(rollButtonRef);
+                            rerollAll();
+                        }}
+                        sx={{ marginLeft: "auto" }}
+                    >
+                        <CasinoIcon ref={rollButtonRef} />
                     </IconButton>
                 </Tooltip>
             </CardActions>
@@ -253,7 +260,6 @@ function AdditionalOptions({
     const selectedString = selected.toString();
     const selectedNumber = Number(selected);
     const selectedColor = options[selectedNumber].color;
-    const textColor = selectedColor != "black" ? colors["black"] : undefined;
     return (
         <Select
             value={selectedString}
@@ -263,11 +269,8 @@ function AdditionalOptions({
             sx={{
                 minWidth: "200px",
                 marginTop: "20px",
-                // minWidth: "100%",
                 fontSize: "14pt",
                 border: `2px solid ${selectedColor && colors[selectedColor]}`,
-                // backgroundColor:
-                // color: textColor,
             }}
         >
             {options.map((option, index) => (
@@ -279,6 +282,16 @@ function AdditionalOptions({
     );
 }
 
+function rollDiceAnimation(rollButtonRef: React.RefObject<SVGSVGElement>) {
+    const rollButton = rollButtonRef.current;
+    if (rollButton) {
+        rollButton.classList.add("roll-dice");
+        setTimeout(() => {
+            rollButton.classList.remove("roll-dice");
+        }, 400);
+    }
+}
+
 export default function Crucible({
     tables,
     titles,
@@ -288,10 +301,12 @@ export default function Crucible({
     titles?: string[];
     additionalOptions?: AddlOption[];
 }) {
+    const rollButtonRef = useRef<SVGSVGElement>(null);
     const [selectedInTables, setSelectedInTables] = useState<string[][]>(
         Array(tables.length).fill([])
     );
     const roll = (_e: React.MouseEvent) => {
+        rollDiceAnimation(rollButtonRef);
         const newSelectedInTables = [];
         for (const i in tables) {
             const selected = [];
@@ -323,7 +338,7 @@ export default function Crucible({
                                 variant="contained"
                                 size="large"
                                 onClick={roll}
-                                startIcon={<CasinoIcon />}
+                                startIcon={<CasinoIcon ref={rollButtonRef} />}
                                 sx={{
                                     minHeight: "50px",
                                     minWidth: "100px",
@@ -362,6 +377,7 @@ export default function Crucible({
                                         sx={{
                                             display: "flex",
                                             justifyContent: "center",
+                                            overflowX: "scroll",
                                         }}
                                     >
                                         {titles && titles[index] != undefined ? (
