@@ -1,5 +1,6 @@
 {
   "name": "junbl-website",
+  "homepage": "https://junbl.github.io/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
