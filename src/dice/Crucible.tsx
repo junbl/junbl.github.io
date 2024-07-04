@@ -133,37 +133,41 @@ function CrucibleResults({
                                 {selectedForDisplay.join(" ")}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                variant="contained"
-                                startIcon={<SwapHorizIcon />}
-                                onClick={() => {
-                                    setSelected(selected.toReversed());
-                                }}
-                                style={{ marginRight: "5px" }}
-                            >
-                                Swap
-                            </Button>
-                            <Button
-                                variant="contained"
-                                startIcon={of ? <RemoveIcon /> : <AddIcon />}
-                                onClick={() => {
-                                    setOf((of) => !of);
-                                }}
-                            >
-                                Of
-                            </Button>
-                            <Button
-                                variant="contained"
-                                startIcon={<SwapHorizIcon />}
-                                onClick={() => {
-                                    setSelected(selected.toReversed());
-                                    setOf((of) => !of);
-                                }}
-                                style={{ marginLeft: "5px" }}
-                            >
-                                Swap and Toggle Of
-                            </Button>
+                        <Grid container item xs={12} spacing="5px" justifyContent="center">
+                            <Grid item>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<SwapHorizIcon />}
+                                    onClick={() => {
+                                        setSelected(selected.toReversed());
+                                    }}
+                                >
+                                    Swap
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    variant="contained"
+                                    startIcon={of ? <RemoveIcon /> : <AddIcon />}
+                                    onClick={() => {
+                                        setOf((of) => !of);
+                                    }}
+                                >
+                                    Of
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<SwapHorizIcon />}
+                                    onClick={() => {
+                                        setSelected(selected.toReversed());
+                                        setOf((of) => !of);
+                                    }}
+                                >
+                                    Swap and Toggle Of
+                                </Button>
+                            </Grid>
                         </Grid>
                         {additionalOptions != null && selectedAdditionalOption != null && (
                             <Grid item xs={12}>
@@ -261,10 +265,49 @@ export default function Crucible({
     return (
         <>
             <div style={{ display: "flex", alignContent: "center" }}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid
+                        item
+                        xs={12}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Button
+                                variant="contained"
+                                size="large"
+                                onClick={roll}
+                                startIcon={<CasinoIcon />}
+                                sx={{
+                                    minHeight: "50px",
+                                    minWidth: "100px",
+                                    fontSize: "20pt",
+                                }}
+                            >
+                                Roll!
+                            </Button>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <CrucibleResults
+                                options={selectedInTables}
+                                additionalOptions={additionalOptions}
+                            />
+                        </div>
+                    </Grid>
                     {tables.map((table, index) => {
                         return (
-                            <Grid key={index} item xs={12} lg={tables.length % 2 ? 12 : 6}>
+                            <Grid key={index} item >
+                                {/* xs={12} lg={tables.length % 2 ? 12 : 6} xl={tables.length % 3 ? 12 : 4}> */}
                                 <div
                                     style={{
                                         display: "flex",
@@ -285,61 +328,13 @@ export default function Crucible({
                                             </>
                                         ) : null}
                                         <CardContent>
-                                            <div
-                                                style={
-                                                    {
-                                                        // display: "flex",
-                                                        // justifyContent: "center",
-                                                        // maxWidth: "1000px",
-                                                    }
-                                                }
-                                            >
-                                                <D66
-                                                    table={table}
-                                                    selected={selectedInTables[index]}
-                                                />
-                                            </div>
+                                            <D66 table={table} selected={selectedInTables[index]} />
                                         </CardContent>
                                     </Card>
                                 </div>
                             </Grid>
                         );
                     })}
-                    <Grid
-                        item
-                        xs={12}
-                        // sx={{ display: "flex", alignItems: "center" }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Button
-                                variant="contained"
-                                size="large"
-                                onClick={roll}
-                                startIcon={<CasinoIcon />}
-                                sx={{ minHeight: "50px", minWidth: "100px", fontSize: "20pt" }}
-                            >
-                                Roll!
-                            </Button>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <CrucibleResults
-                                options={selectedInTables}
-                                additionalOptions={additionalOptions}
-                            />
-                        </div>
-                    </Grid>
                 </Grid>
             </div>
         </>

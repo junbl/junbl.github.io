@@ -33,26 +33,27 @@ const darkTheme = createTheme({
             default: "#262626",
         },
         text: {
-            primary: "#e8e8e8",
+            primary: colors.white,
         },
         primary: {
-            main: "#75ade6",
-            light: "#e8e8e8",
+            main: colors.blue,
+            light: colors.white,
+            // contrastText: colors.white,
         },
         secondary: {
-            main: "#bf94e6",
+            main: colors.purple,
         },
         error: {
-            main: "#ff6673",
+            main: colors.red,
         },
         warning: {
-            main: "#ffc966",
+            main: colors.yellow,
         },
         info: {
-            main: "#24D1E7",
+            main: colors.cyan,
         },
         success: {
-            main: "#a9d274",
+            main: colors.green,
         },
     },
 });
