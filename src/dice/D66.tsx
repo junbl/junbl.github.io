@@ -4,10 +4,8 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     TableRow,
     Theme,
-    Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
@@ -16,30 +14,13 @@ export type SelectedCell = {
     column: number;
 };
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        fontSize: "200pt",
-    },
-    table: {
-        fontSize: "200pt",
-    },
+    root: {},
+    table: {},
 }));
-export default function D66({
-    table,
-    selected,
-}: {
-    table: string[][];
-    selected: string[];
-}) {
-    // if (selected == null) {
-    //     selected = [];
-    // }
+export default function D66({ table, selected }: { table: string[][]; selected: string[] }) {
     const classes = useStyles();
     return (
-        <TableContainer
-            component={(props) => (
-                <Paper className={classes.root} {...props}></Paper>
-            )}
-        >
+        <TableContainer component={(props) => <Paper className={classes.root} {...props}></Paper>}>
             <Table>
                 <TableBody>
                     {table.map((row, r) => (
@@ -62,11 +43,9 @@ export default function D66({
                                         selected.includes(cell)
                                             ? {
                                                   backgroundColor: (theme) =>
-                                                      theme.palette.primary
-                                                          .main,
+                                                      theme.palette.primary.main,
                                                   color: (theme) =>
-                                                      theme.palette.background
-                                                          .default,
+                                                      theme.palette.background.default,
                                               }
                                             : undefined
                                     }
