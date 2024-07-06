@@ -9,6 +9,7 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
+    TextField,
     Tooltip,
     Typography,
 } from "@mui/material";
@@ -16,6 +17,7 @@ import D66 from "./D66";
 import CasinoIcon from "@mui/icons-material/Casino";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import SwapCallsIcon from "@mui/icons-material/SwapCalls";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
@@ -314,23 +316,46 @@ export default function Crucible({
     const [selectedInTables, setSelectedInTables] = useState<string[][]>(
         Array(tables.length).fill([])
     );
+    const [manualInput, setManualInput] = useState(false);
+    const [manualRolls, setManualRolls] = useState("");
+
+    const getSelected = (table: string[][], row: number, column: number) => {
+        const selected = [];
+        const rc = table[row][column];
+        const cr = table[column][row];
+        selected.push(rc);
+        if (rc != cr) {
+            selected.push(cr);
+        }
+        return selected;
+    };
     const roll = (_e: React.MouseEvent) => {
         rollDiceAnimation(rollButtonRef);
         const newSelectedInTables = [];
         for (const i in tables) {
-            const selected = [];
-            const row = d6();
-            const column = d6();
-            const rc = tables[i][row][column];
-            const cr = tables[i][column][row];
-            selected.push(rc);
-            if (rc != cr) {
-                selected.push(cr);
-            }
-            newSelectedInTables.push(selected);
+            newSelectedInTables.push(getSelected(tables[i], d6(), d6()));
         }
         setSelectedInTables(newSelectedInTables);
     };
+
+    const updateRolls = _.debounce(() => {
+        if (manualInput && manualRolls.length > 0) {
+            const rollChunks = _.chunk(manualRolls, 2);
+            const newSelectedInTables = [];
+            console.debug("updateRolls 1", manualRolls);
+            for (const i in rollChunks) {
+                const rollChunk = rollChunks[i];
+                if (rollChunk.length == 2) {
+                    newSelectedInTables.push(
+                        getSelected(tables[i], Number(rollChunk[0]) - 1, Number(rollChunk[1]) - 1)
+                    );
+                }
+            }
+            console.debug("updateRolls", rollChunks, newSelectedInTables);
+            setSelectedInTables(newSelectedInTables);
+        }
+    }, 200);
+    useEffect(updateRolls, [manualRolls]);
 
     return (
         <>
@@ -343,19 +368,57 @@ export default function Crucible({
                                 justifyContent: "center",
                             }}
                         >
-                            <Button
-                                variant="contained"
-                                size="large"
-                                onClick={roll}
-                                startIcon={<CasinoIcon ref={rollButtonRef} />}
-                                sx={{
-                                    minHeight: "50px",
-                                    minWidth: "100px",
-                                    fontSize: "20pt",
-                                }}
+                            {manualInput ? (
+                                <TextField
+                                    variant="filled"
+                                    value={manualRolls}
+                                    onChange={(e) => {
+                                        const newValue = e.target.value;
+                                        console.debug("manual rolls", manualRolls);
+                                        if (newValue.length <= 2 * tables.length) {
+                                            const newManualRolls = e.target.value.replaceAll(
+                                                /[^1-6]/g,
+                                                ""
+                                            );
+                                            console.debug("new manual rolls", newManualRolls);
+                                            setManualRolls(newManualRolls);
+                                        }
+                                    }}
+                                    placeholder={`Type in your rolls, e.g. ${_.range(
+                                        1,
+                                        tables.length * 2 + 1
+                                    ).join("")}`}
+                                    sx={{ minWidth: "270px" }}
+                                ></TextField>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    onClick={roll}
+                                    startIcon={<CasinoIcon ref={rollButtonRef} />}
+                                    sx={{
+                                        minHeight: "50px",
+                                        minWidth: "100px",
+                                        fontSize: "20pt",
+                                    }}
+                                >
+                                    Roll!
+                                </Button>
+                            )}
+                            <Tooltip
+                                // enterDelay={250}
+                                title={`Swap to ${manualInput ? "random" : "manual input"} mode`}
                             >
-                                Roll!
-                            </Button>
+                                <IconButton
+                                    onClick={() => setManualInput((manualInput) => !manualInput)}
+                                    edge="start"
+                                    sx={{
+                                        marginLeft: "8px",
+                                    }}
+                                >
+                                    {manualInput ? <CasinoIcon /> : <EditNoteIcon />}
+                                </IconButton>
+                            </Tooltip>
                         </div>
                     </Grid>
                     <Grid item xs={12}>
