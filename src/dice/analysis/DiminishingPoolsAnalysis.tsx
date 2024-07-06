@@ -66,7 +66,7 @@ export default function DiminishingPoolAnalysis() {
                         </TableBody>
                     </Table>
                 </Grid>
-                <Grid item xs={12} sm={10} sx={{ minHeight: { xs: 1000 } }}>
+                <Grid item xs={12} sm={10} sx={{ minHeight: { xs: "90vh", sm: 100 } }}>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={4}
