@@ -1,0 +1,224 @@
+{
+  "3": {
+    "0": [
+      { "result": "disaster", "proportion": 0.0 },
+      { "result": "grim", "proportion": 0.12493326 },
+      { "result": "messy", "proportion": 0.45378994 },
+      { "result": "perfect", "proportion": 0.34719704 },
+      { "result": "critical", "proportion": 0.07407976 }
+    ],
+    "2": [
+      { "result": "disaster", "proportion": 0.08305763 },
+      { "result": "grim", "proportion": 0.26213988 },
+      { "result": "messy", "proportion": 0.3853816 },
+      { "result": "perfect", "proportion": 0.1953507 },
+      { "result": "critical", "proportion": 0.07407019 }
+    ],
+    "4": [
+      { "result": "disaster", "proportion": 0.22184327 },
+      { "result": "grim", "proportion": 0.30415918 },
+      { "result": "messy", "proportion": 0.29007783 },
+      { "result": "perfect", "proportion": 0.10986897 },
+      { "result": "critical", "proportion": 0.07405075 }
+    ],
+    "1": [
+      { "result": "disaster", "proportion": 0.03124531 },
+      { "result": "grim", "proportion": 0.20719094 },
+      { "result": "messy", "proportion": 0.42700463 },
+      { "result": "perfect", "proportion": 0.2604687 },
+      { "result": "critical", "proportion": 0.07409042 }
+    ],
+    "3": [
+      { "result": "disaster", "proportion": 0.14857476 },
+      { "result": "grim", "proportion": 0.293035 },
+      { "result": "messy", "proportion": 0.33786506 },
+      { "result": "perfect", "proportion": 0.14645898 },
+      { "result": "critical", "proportion": 0.0740662 }
+    ]
+  },
+  "4": {
+    "1": [
+      { "result": "disaster", "proportion": 0.01563326 },
+      { "result": "grim", "proportion": 0.15186113 },
+      { "result": "messy", "proportion": 0.41128219 },
+      { "result": "perfect", "proportion": 0.28930686 },
+      { "result": "critical", "proportion": 0.13191656 }
+    ],
+    "2": [
+      { "result": "disaster", "proportion": 0.05356712 },
+      { "result": "grim", "proportion": 0.2167023 },
+      { "result": "messy", "proportion": 0.38083243 },
+      { "result": "perfect", "proportion": 0.21700362 },
+      { "result": "critical", "proportion": 0.13189453 }
+    ],
+    "0": [
+      { "result": "disaster", "proportion": 0.0 },
+      { "result": "grim", "proportion": 0.06246697 },
+      { "result": "messy", "proportion": 0.41975751 },
+      { "result": "perfect", "proportion": 0.38578976 },
+      { "result": "critical", "proportion": 0.13198576 }
+    ],
+    "3": [
+      { "result": "disaster", "proportion": 0.10777755 },
+      { "result": "grim", "proportion": 0.2576778 },
+      { "result": "messy", "proportion": 0.33985254 },
+      { "result": "perfect", "proportion": 0.16274795 },
+      { "result": "critical", "proportion": 0.13194416 }
+    ],
+    "4": [
+      { "result": "disaster", "proportion": 0.17211501 },
+      { "result": "grim", "proportion": 0.27829383 },
+      { "result": "messy", "proportion": 0.29555566 },
+      { "result": "perfect", "proportion": 0.12208797 },
+      { "result": "critical", "proportion": 0.13194753 }
+    ]
+  },
+  "5": {
+    "0": [
+      { "result": "disaster", "proportion": 0.0 },
+      { "result": "grim", "proportion": 0.03127032 },
+      { "result": "messy", "proportion": 0.37063676 },
+      { "result": "perfect", "proportion": 0.40187275 },
+      { "result": "critical", "proportion": 0.19622017 }
+    ],
+    "4": [
+      { "result": "disaster", "proportion": 0.13878128 },
+      { "result": "grim", "proportion": 0.25102958 },
+      { "result": "messy", "proportion": 0.2867396 },
+      { "result": "perfect", "proportion": 0.12716013 },
+      { "result": "critical", "proportion": 0.19628941 }
+    ],
+    "1": [
+      { "result": "disaster", "proportion": 0.00782993 },
+      { "result": "grim", "proportion": 0.11612287 },
+      { "result": "messy", "proportion": 0.37844712 },
+      { "result": "perfect", "proportion": 0.30136743 },
+      { "result": "critical", "proportion": 0.19623265 }
+    ],
+    "3": [
+      { "result": "disaster", "proportion": 0.08224334 },
+      { "result": "grim", "proportion": 0.22608746 },
+      { "result": "messy", "proportion": 0.32590666 },
+      { "result": "perfect", "proportion": 0.16949759 },
+      { "result": "critical", "proportion": 0.19626495 }
+    ],
+    "2": [
+      { "result": "disaster", "proportion": 0.03682009 },
+      { "result": "grim", "proportion": 0.18170811 },
+      { "result": "messy", "proportion": 0.35914199 },
+      { "result": "perfect", "proportion": 0.22609782 },
+      { "result": "critical", "proportion": 0.19623199 }
+    ]
+  },
+  "6": {
+    "0": [
+      { "result": "disaster", "proportion": 0.0 },
+      { "result": "grim", "proportion": 0.01564424 },
+      { "result": "messy", "proportion": 0.31923302 },
+      { "result": "perfect", "proportion": 0.40194752 },
+      { "result": "critical", "proportion": 0.26317522 }
+    ],
+    "3": [
+      { "result": "disaster", "proportion": 0.06514105 },
+      { "result": "grim", "proportion": 0.19784175 },
+      { "result": "messy", "proportion": 0.30422148 },
+      { "result": "perfect", "proportion": 0.1695605 },
+      { "result": "critical", "proportion": 0.26323522 }
+    ],
+    "4": [
+      { "result": "disaster", "proportion": 0.11462143 },
+      { "result": "grim", "proportion": 0.22443318 },
+      { "result": "messy", "proportion": 0.27052216 },
+      { "result": "perfect", "proportion": 0.12718759 },
+      { "result": "critical", "proportion": 0.26323564 }
+    ],
+    "1": [
+      { "result": "disaster", "proportion": 0.00390731 },
+      { "result": "grim", "proportion": 0.0914958 },
+      { "result": "messy", "proportion": 0.33991509 },
+      { "result": "perfect", "proportion": 0.3014062 },
+      { "result": "critical", "proportion": 0.2632756 }
+    ],
+    "2": [
+      { "result": "disaster", "proportion": 0.02678178 },
+      { "result": "grim", "proportion": 0.15357137 },
+      { "result": "messy", "proportion": 0.33031825 },
+      { "result": "perfect", "proportion": 0.22607596 },
+      { "result": "critical", "proportion": 0.26325264 }
+    ]
+  },
+  "2": {
+    "0": [
+      { "result": "disaster", "proportion": 0.0 },
+      { "result": "grim", "proportion": 0.249997 },
+      { "result": "messy", "proportion": 0.44441417 },
+      { "result": "perfect", "proportion": 0.2777946 },
+      { "result": "critical", "proportion": 0.02779423 }
+    ],
+    "3": [
+      { "result": "disaster", "proportion": 0.21835491 },
+      { "result": "grim", "proportion": 0.33202632 },
+      { "result": "messy", "proportion": 0.30467762 },
+      { "result": "perfect", "proportion": 0.11718326 },
+      { "result": "critical", "proportion": 0.02775789 }
+    ],
+    "1": [
+      { "result": "disaster", "proportion": 0.06252136 },
+      { "result": "grim", "proportion": 0.29867952 },
+      { "result": "messy", "proportion": 0.402712 },
+      { "result": "perfect", "proportion": 0.20828297 },
+      { "result": "critical", "proportion": 0.02780415 }
+    ],
+    "2": [
+      { "result": "disaster", "proportion": 0.13714624 },
+      { "result": "grim", "proportion": 0.324637 },
+      { "result": "messy", "proportion": 0.35415714 },
+      { "result": "perfect", "proportion": 0.15627142 },
+      { "result": "critical", "proportion": 0.0277882 }
+    ],
+    "4": [
+      { "result": "disaster", "proportion": 0.30128663 },
+      { "result": "grim", "proportion": 0.32509441 },
+      { "result": "messy", "proportion": 0.25786823 },
+      { "result": "perfect", "proportion": 0.08794748 },
+      { "result": "critical", "proportion": 0.02780325 }
+    ]
+  },
+  "1": {
+    "2": [
+      { "result": "disaster", "proportion": 0.2395452 },
+      { "result": "grim", "proportion": 0.41661293 },
+      { "result": "messy", "proportion": 0.2500421 },
+      { "result": "perfect", "proportion": 0.09379977 },
+      { "result": "critical", "proportion": 0.0 }
+    ],
+    "1": [
+      { "result": "disaster", "proportion": 0.12505821 },
+      { "result": "grim", "proportion": 0.45830287 },
+      { "result": "messy", "proportion": 0.29163351 },
+      { "result": "perfect", "proportion": 0.12500541 },
+      { "result": "critical", "proportion": 0.0 }
+    ],
+    "3": [
+      { "result": "disaster", "proportion": 0.34372825 },
+      { "result": "grim", "proportion": 0.37502227 },
+      { "result": "messy", "proportion": 0.21091382 },
+      { "result": "perfect", "proportion": 0.07033566 },
+      { "result": "critical", "proportion": 0.0 }
+    ],
+    "0": [
+      { "result": "disaster", "proportion": 0.0 },
+      { "result": "grim", "proportion": 0.49999522 },
+      { "result": "messy", "proportion": 0.33334557 },
+      { "result": "perfect", "proportion": 0.16665921 },
+      { "result": "critical", "proportion": 0.0 }
+    ],
+    "4": [
+      { "result": "disaster", "proportion": 0.43741654 },
+      { "result": "grim", "proportion": 0.33406439 },
+      { "result": "messy", "proportion": 0.1757831 },
+      { "result": "perfect", "proportion": 0.05273597 },
+      { "result": "critical", "proportion": 0.0 }
+    ]
+  }
+}
