@@ -65,7 +65,7 @@ export default function RollsWithThornsAnalysis() {
                                     onChange={(e: SelectChangeEvent) => {
                                         setSelectedNumDice(e.target.value);
                                     }}
-                                    sx={{ minWidth: "400px" }}
+                                    sx={{ minWidth: "300px" }}
                                 >
                                     {numDiceOptions.map((opt) => (
                                         <MenuItem key={opt} value={opt}>
@@ -86,7 +86,7 @@ export default function RollsWithThornsAnalysis() {
                                     onChange={(e: SelectChangeEvent) => {
                                         setSelectedNumThorns(e.target.value);
                                     }}
-                                    sx={{ minWidth: "400px" }}
+                                    sx={{ minWidth: "300px" }}
                                 >
                                     {numThornsOptions.map((opt) => (
                                         <MenuItem key={opt} value={opt}>
