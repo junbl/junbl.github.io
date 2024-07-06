@@ -36,22 +36,25 @@ function CrucibleResults({
     options,
     n = 2,
     additionalOptions,
+    disableBackwards = false,
 }: {
     options: string[][];
     n?: number;
     additionalOptions?: AddlOption[];
+    disableBackwards?: boolean;
 }) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const defaultSelection = () => {
         if (options.length == 0 || options[0].length == 0) {
             return [[] as string[], false] as const;
         }
-        const shuffledOptions = _.shuffle(
-            options.map((row, index) => ({
-                row,
-                index,
-            }))
-        );
+        let shuffledOptions = options.map((row, index) => ({
+            row,
+            index,
+        }));
+        if (!disableBackwards) {
+            shuffledOptions = _.shuffle(shuffledOptions);
+        }
         const selectedRows = shuffledOptions.slice(0, n);
         let of = selectedRows[0].index > selectedRows[selectedRows.length - 1].index;
         const firstRowLast = selectedRows[selectedRows.length - 1].index == 0;
@@ -112,7 +115,7 @@ function CrucibleResults({
                         (s, index) => [options.findIndex((row) => row.includes(s)), index] as const
                     )) {
                         if (
-                            Math.abs(rowIndexForSelected - rowIndex) <
+                            Math.abs(rowIndexForSelected - rowIndex) <=
                             Math.abs(closestRowIndex - rowIndex)
                         ) {
                             closestRowIndex = rowIndexForSelected;
@@ -130,7 +133,7 @@ function CrucibleResults({
                     newSelected.splice(otherSelectedInRowIndex, 1, option);
                 } else {
                     // console.debug("selected less than max options, inserting at start");
-                    newSelected.unshift(option);
+                    newSelected.splice(rowIndex, 0, option);
                 }
             }
         }
@@ -300,10 +303,12 @@ export default function Crucible({
     tables,
     titles,
     additionalOptions,
+    disableBackwards = false,
 }: {
     tables: string[][][];
     titles?: string[];
     additionalOptions?: AddlOption[];
+    disableBackwards?: boolean;
 }) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const [selectedInTables, setSelectedInTables] = useState<string[][]>(
@@ -363,6 +368,7 @@ export default function Crucible({
                             <CrucibleResults
                                 options={selectedInTables}
                                 additionalOptions={additionalOptions}
+                                disableBackwards={disableBackwards}
                             />
                         </div>
                     </Grid>

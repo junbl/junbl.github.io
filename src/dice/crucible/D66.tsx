@@ -14,7 +14,7 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
     return (
         <TableContainer component={(props) => <Paper className={classes.root} {...props}></Paper>}>
             {/* <Table padding={{xs: "none", sm: "normal"}}> */}
-            <Table >
+            <Table size="small">
                 <TableBody>
                     {table.map((row, r) => (
                         <TableRow

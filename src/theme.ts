@@ -12,6 +12,7 @@ export const colors = {
     pink: "#F48FB1",
     white: "#e8e8e8",
     lightGray: "#a2a3a6",
+    gray: "#424346",
     darkGray: "#262626",
     black: "#1D1F28",
 };

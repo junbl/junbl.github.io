@@ -1,14 +1,40 @@
 import { Button, Grid } from "@mui/material";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import BarChartIcon from '@mui/icons-material/BarChart';
+import HeaderFooter from "./HeaderFooter";
 
 export default function Home() {
-  return (
-    <Grid container>
-      <Grid item>
-        <Button size="large">Spell Crucible</Button>
-      </Grid>
-      <Grid item>
-        <Button size="large">GM Crucible</Button>
-      </Grid>
-    </Grid>
-  );
+    const ButtonItem = ({ title, to, Icon }: { title: string; to: string; Icon: any }) => {
+        return (
+            <Grid item xs={12} spacing={3}>
+                <Button
+                    href={"/dice/" + to}
+                    size="large"
+                    startIcon={<Icon />}
+                    sx={{ marginLeft: "10vw", fontSize: "2rem" }}
+                >
+                    {title}
+                </Button>
+            </Grid>
+        );
+    };
+    return (
+        <HeaderFooter title="Dice tools">
+            <Grid container justifyContent="center">
+                <ButtonItem title="Spell Crucible" Icon={AutoFixHighIcon} to="spellcrucible" />
+                <ButtonItem title="GM Crucible" Icon={TipsAndUpdatesIcon} to="gmcrucible" />
+                <ButtonItem
+                    title="Diminishing Pools Analysis"
+                    Icon={BarChartIcon}
+                    to="analysis/diminishingpools"
+                />
+                <ButtonItem
+                    title="Rolls with Thorns Analysis"
+                    Icon={BarChartIcon}
+                    to="analysis/rollswiththorns"
+                />
+            </Grid>
+        </HeaderFooter>
+    );
 }
