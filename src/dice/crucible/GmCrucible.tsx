@@ -7,7 +7,7 @@ export default function GmCrucible() {
     document.title = "GM Crucible";
     return (
         <HeaderFooter title="GM Crucible" back="/dice">
-            <Crucible tables={[gm1, gm2]} />
+            <Crucible disableBackwards={true} tables={[gm1, gm2]} />
         </HeaderFooter>
     );
 }

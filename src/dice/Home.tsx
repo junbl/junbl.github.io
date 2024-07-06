@@ -1,6 +1,7 @@
 import { Button, Grid } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import BarChartIcon from '@mui/icons-material/BarChart';
 import HeaderFooter from "./HeaderFooter";
 
 export default function Home() {
@@ -25,12 +26,12 @@ export default function Home() {
                 <ButtonItem title="GM Crucible" Icon={TipsAndUpdatesIcon} to="gmcrucible" />
                 <ButtonItem
                     title="Diminishing Pools Analysis"
-                    Icon={TipsAndUpdatesIcon}
+                    Icon={BarChartIcon}
                     to="analysis/diminishingpools"
                 />
                 <ButtonItem
                     title="Rolls with Thorns Analysis"
-                    Icon={TipsAndUpdatesIcon}
+                    Icon={BarChartIcon}
                     to="analysis/rollswiththorns"
                 />
             </Grid>
