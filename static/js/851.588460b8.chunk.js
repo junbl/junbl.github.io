@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkjunbl_website=self.webpackChunkjunbl_website||[]).push([[851],{4851:(e,i,l)=>{l.r(i),l.d(i,{default:()=>c});var r=l(8903),s=l(1906),n=l(579);function c(){return(0,n.jsxs)(r.Ay,{container:!0,children:[(0,n.jsx)(r.Ay,{item:!0,children:(0,n.jsx)(s.A,{size:"large",children:"Spell Crucible"})}),(0,n.jsx)(r.Ay,{item:!0,children:(0,n.jsx)(s.A,{size:"large",children:"GM Crucible"})})]})}}}]);
-//# sourceMappingURL=851.588460b8.chunk.js.map
