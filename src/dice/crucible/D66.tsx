@@ -33,7 +33,7 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
                                     className={classes.table}
                                     key={cell + c}
                                     sx={
-                                        selected.includes(cell)
+                                        selected && selected.includes(cell)
                                             ? {
                                                   backgroundColor: (theme) =>
                                                       theme.palette.primary.main,
