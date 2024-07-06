@@ -7,7 +7,7 @@ import HeaderFooter from "../HeaderFooter";
 
 export default function SpellCrucible() {
     return (
-        <HeaderFooter title="Spell Crucible">
+        <HeaderFooter title="Spell Crucible" back="/dice">
             <Crucible
                 tables={[spellStyle, spellMaterial, spellForm]}
                 titles={["Style", "Material", "Form"]}

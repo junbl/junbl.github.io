@@ -50,7 +50,7 @@ export default function RollsWithThornsAnalysis() {
             .map((r) => r.proportion)
     );
     return (
-        <HeaderFooter title="Rolls with Thorns">
+        <HeaderFooter title="Rolls with Thorns" back="/dice">
             <Grid container justifyContent={"center"}>
                 <Grid item>
                     <Grid container spacing={2}>

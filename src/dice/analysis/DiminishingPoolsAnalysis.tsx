@@ -41,7 +41,7 @@ export default function DiminishingPoolAnalysis() {
     }, [selectedNumDice]);
 
     return (
-        <HeaderFooter title="Diminishing Pools">
+        <HeaderFooter title="Diminishing Pools" back="/dice">
             <Grid container>
                 <Grid item xs={2}>
                     <Table>

@@ -6,7 +6,7 @@ import HeaderFooter from "../HeaderFooter";
 export default function GmCrucible() {
     document.title = "GM Crucible";
     return (
-        <HeaderFooter title="GM Crucible">
+        <HeaderFooter title="GM Crucible" back="/dice">
             <Crucible tables={[gm1, gm2]} />
         </HeaderFooter>
     );
