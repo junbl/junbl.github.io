@@ -1,11 +1,13 @@
-import { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import rollsData from "../../static/stats/rolls.json";
 import HeaderFooter from "../HeaderFooter";
 import {
     FormControl,
     Grid,
     InputLabel,
+    MenuItem,
     OutlinedInput,
+    Select,
     useMediaQuery,
     useTheme,
 } from "@mui/material";
@@ -14,8 +16,8 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, Tooltip, ResponsiveContainer } 
 import _ from "lodash";
 import { colors } from "../../theme";
 import { proportionFormat } from "./DiminishingPoolsAnalysis";
-const data: { [d: string]: { [t: string]: (typeof rollsData)["1"]["0"] } } = rollsData;
-const barColors: { [r: string]: string } = {
+const data: Record<string, Record<string, (typeof rollsData)["1"]["0"]>> = rollsData;
+const barColors: Record<string, string> = {
     disaster: colors.red,
     grim: colors.lightGray,
     messy: colors.yellow,
@@ -32,12 +34,74 @@ const info = (
     </>
 );
 
+function NumDiceInput({
+    title,
+    options,
+    selected,
+    setSelected,
+    mobileScreen,
+}: {
+    title: string;
+    options: string[];
+    selected: string;
+    setSelected: Dispatch<SetStateAction<string>>;
+    mobileScreen: boolean;
+}) {
+    const min = options[0];
+    const max = options[options.length - 1];
+    return (
+        <FormControl>
+            <InputLabel id={title}>{title}</InputLabel>
+            {mobileScreen ? (
+                <Select
+                    value={selected}
+                    type="number"
+                    label={title}
+                    id={title}
+                    labelId={title}
+                    onChange={(e) => {
+                        setSelected(e.target.value);
+                    }}
+                    sx={{ minWidth: { sm: "250px", xs: "175px" } }}
+                >
+                    {options.map((option) => (
+                        <MenuItem key={option} value={option}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </Select>
+            ) : (
+                <OutlinedInput
+                    inputProps={{ min, max }}
+                    value={selected}
+                    type="number"
+                    label={title}
+                    id={title}
+                    onChange={(e) => {
+                        const newSelected = e.target.value;
+                        if (newSelected === "") {
+                            setSelected(e.target.value);
+                        } else if (Number(newSelected) < Number(min)) {
+                            setSelected(min);
+                        } else if (Number(newSelected) > Number(max)) {
+                            setSelected(max);
+                        } else {
+                            setSelected(e.target.value);
+                        }
+                    }}
+                    sx={{ minWidth: { sm: "250px", xs: "175px" } }}
+                />
+            )}
+        </FormControl>
+    );
+}
+
 export default function RollsWithThornsAnalysis() {
     const theme = useTheme();
     const mobileScreen = useMediaQuery(theme.breakpoints.between("xs", "sm"));
     const [selectedNumDice, setSelectedNumDice] = useState("4");
     const [selectedNumThorns, setSelectedNumThorns] = useState("1");
-    const selectedRow = data[selectedNumDice][selectedNumThorns];
+    const selectedRow = (data[selectedNumDice] && data[selectedNumDice][selectedNumThorns]) || [];
     const maxProportion = _.max(
         Object.values(data)
             .map((r) => Object.values(r))
@@ -55,42 +119,22 @@ export default function RollsWithThornsAnalysis() {
                         // marginLeft={{ xs: 5, sm: 0 }}
                     >
                         <Grid item>
-                            <FormControl>
-                                <InputLabel id="dice">Number of dice</InputLabel>
-                                <OutlinedInput
-                                    inputProps={{
-                                        min: numDiceOptions[0],
-                                        max: numDiceOptions[numDiceOptions.length - 1],
-                                    }}
-                                    type="number"
-                                    value={selectedNumDice}
-                                    label="Number of dice"
-                                    id="dice"
-                                    onChange={(e) => {
-                                        setSelectedNumDice(e.target.value);
-                                    }}
-                                    sx={{ minWidth: { sm: "250px", xs: "175px" } }}
-                                />
-                            </FormControl>
+                            <NumDiceInput
+                                title="Number of dice"
+                                options={numDiceOptions}
+                                selected={selectedNumDice}
+                                setSelected={setSelectedNumDice}
+                                mobileScreen={mobileScreen}
+                            />
                         </Grid>
                         <Grid item>
-                            <FormControl>
-                                <InputLabel id="thorns">Number of thorns</InputLabel>
-                                <OutlinedInput
-                                    inputProps={{
-                                        min: numThornsOptions[0],
-                                        max: numThornsOptions[numThornsOptions.length - 1],
-                                    }}
-                                    value={selectedNumThorns.toString()}
-                                    type="number"
-                                    label="Number of thorns"
-                                    id="thorns"
-                                    onChange={(e) => {
-                                        setSelectedNumThorns(e.target.value);
-                                    }}
-                                    sx={{ minWidth: { sm: "250px", xs: "175px" } }}
-                                />
-                            </FormControl>
+                            <NumDiceInput
+                                title="Number of thorns"
+                                options={numThornsOptions}
+                                selected={selectedNumThorns}
+                                setSelected={setSelectedNumThorns}
+                                mobileScreen={mobileScreen}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
