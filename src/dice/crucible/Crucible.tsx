@@ -46,6 +46,8 @@ function CrucibleResults({
     enableThe = defaultThe,
     enableOf = true,
     enableSwap = true,
+    color = undefined,
+    textColor = undefined,
 }: {
     options: string[][];
     n?: number;
@@ -58,6 +60,8 @@ function CrucibleResults({
     enableThe?: boolean;
     enableSwap?: boolean;
     disableBackwards?: boolean;
+    color?: string;
+    textColor?: string;
 }) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const defaultSelection = () => {
@@ -348,6 +352,8 @@ export default function Crucible({
     titles,
     n = 2,
     additionalOptions,
+    color = undefined,
+    textColor = undefined,
     oneWord = false,
     defaultOf = false,
     defaultThe = false,
@@ -361,6 +367,8 @@ export default function Crucible({
     titles?: string[];
     n?: number;
     additionalOptions?: AddlOption[];
+    color?: string;
+    textColor?: string;
     oneWord?: boolean;
     buttons?: boolean;
     defaultOf?: boolean;
@@ -400,7 +408,6 @@ export default function Crucible({
         if (manualInput && manualRolls.length > 0) {
             const rollChunks = _.chunk(manualRolls, 2);
             const newSelectedInTables = [];
-            console.debug("updateRolls 1", manualRolls);
             for (const i in rollChunks) {
                 const rollChunk = rollChunks[i];
                 if (rollChunk.length == 2) {
@@ -409,7 +416,6 @@ export default function Crucible({
                     );
                 }
             }
-            console.debug("updateRolls", rollChunks, newSelectedInTables);
             setSelectedInTables(newSelectedInTables);
         }
     }, 200);
@@ -432,13 +438,11 @@ export default function Crucible({
                                     value={manualRolls}
                                     onChange={(e) => {
                                         const newValue = e.target.value;
-                                        console.debug("manual rolls", manualRolls);
                                         if (newValue.length <= 2 * tables.length) {
                                             const newManualRolls = e.target.value.replaceAll(
                                                 /[^1-6]/g,
                                                 ""
                                             );
-                                            console.debug("new manual rolls", newManualRolls);
                                             setManualRolls(newManualRolls);
                                         }
                                     }}
@@ -498,6 +502,8 @@ export default function Crucible({
                                 defaultThe={defaultThe}
                                 enableSwap={enableSwap}
                                 buttons={buttons}
+                                color={color}
+                                textColor={textColor}
                             />
                         </div>
                     </Grid>
@@ -526,7 +532,12 @@ export default function Crucible({
                                             </>
                                         ) : null}
                                         <CardContent>
-                                            <D66 table={table} selected={selectedInTables[index]} />
+                                            <D66
+                                                table={table}
+                                                selected={selectedInTables[index]}
+                                                color={color}
+                                                textColor={textColor}
+                                            />
                                         </CardContent>
                                     </Card>
                                 </div>
