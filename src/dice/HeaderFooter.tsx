@@ -11,7 +11,14 @@ export default function HeaderFooter({
     back,
     info,
     infoDialog,
-}: PropsWithChildren<{ title: string; back?: string; info?: string; infoDialog?: ReactElement }>) {
+    grimwild = true,
+}: PropsWithChildren<{
+    title: string;
+    back?: string;
+    info?: string;
+    infoDialog?: ReactElement;
+    grimwild?: boolean;
+}>) {
     document.title = title;
     return (
         <>
@@ -34,7 +41,7 @@ export default function HeaderFooter({
             </Toolbar>
             <Divider sx={{ marginBottom: 8 }} />
             {children}
-            <GrimwildFooter />
+            {grimwild ? <GrimwildFooter /> : null}
         </>
     );
 }

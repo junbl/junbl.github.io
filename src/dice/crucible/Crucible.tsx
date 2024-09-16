@@ -38,12 +38,30 @@ function CrucibleResults({
     options,
     n = 2,
     additionalOptions,
+    buttons = true,
     disableBackwards = false,
+    defaultOf = false,
+    oneWord = false,
+    defaultThe = false,
+    enableThe = defaultThe,
+    enableOf = true,
+    enableSwap = true,
+    color = undefined,
+    textColor = undefined,
 }: {
     options: string[][];
     n?: number;
     additionalOptions?: AddlOption[];
+    oneWord?: boolean;
+    buttons?: boolean;
+    defaultOf?: boolean;
+    enableOf?: boolean;
+    defaultThe?: boolean;
+    enableThe?: boolean;
+    enableSwap?: boolean;
     disableBackwards?: boolean;
+    color?: string;
+    textColor?: string;
 }) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const defaultSelection = () => {
@@ -61,15 +79,17 @@ function CrucibleResults({
         let of = selectedRows[0].index > selectedRows[selectedRows.length - 1].index;
         const firstRowLast = selectedRows[selectedRows.length - 1].index == 0;
         const selected = selectedRows.map((row) => row.row[d(row.row.length)]);
-        if (of && firstRowLast && !selected[selected.length - 1].endsWith("ing")) {
+        if (!defaultOf && of && firstRowLast && !selected[selected.length - 1].endsWith("ing")) {
             of = false;
             selected.reverse();
         }
-        return [selected, of] as const;
+        of = defaultOf || of;
+        return [selected, of, defaultThe || (enableThe && of)] as const;
     };
-    const [s, o] = defaultSelection();
+    const [s, o, t] = defaultSelection();
     const [selected, setSelected] = useState<string[]>(s);
     const [of, setOf] = useState(o);
+    const [the, setThe] = useState(t);
     const randomAdditionalOption = () => (additionalOptions ? d(additionalOptions.length - 1) : 0);
     const [selectedAdditionalOption, setSelectedAdditionalOption] = useState<OptionIndex>(
         randomAdditionalOption()
@@ -77,9 +97,10 @@ function CrucibleResults({
     const c = additionalOptions && additionalOptions[Number(selectedAdditionalOption)].color;
     const selectedColor = c && colors[c];
     const rerollAll = () => {
-        const [s, o] = defaultSelection();
+        const [s, o, t] = defaultSelection();
         setSelected(s);
         setOf(o);
+        setThe(t);
         setSelectedAdditionalOption(randomAdditionalOption());
     };
     useEffect(rerollAll, [options]);
@@ -88,9 +109,13 @@ function CrucibleResults({
         return null;
     }
     let selectedForDisplay = selected;
+    if (the) {
+        selectedForDisplay = [...selectedForDisplay];
+        selectedForDisplay.splice(1, 0, "the");
+    }
     if (of) {
-        selectedForDisplay = [...selected];
-        selectedForDisplay.splice(selected.length - 1, 0, "of");
+        selectedForDisplay = [...selectedForDisplay];
+        selectedForDisplay.splice(1, 0, "of");
     }
 
     const onOptionClick = (
@@ -188,45 +213,66 @@ function CrucibleResults({
                                 align="center"
                                 sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
-                                {selectedForDisplay.join(" ")}
+                                {selectedForDisplay.join(oneWord ? "" : " ")}
                             </Typography>
                         </Grid>
-                        <Grid container item xs={12} spacing="5px" justifyContent="center">
-                            <Grid item>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<SwapHorizIcon />}
-                                    onClick={() => {
-                                        setSelected(selected.toReversed());
-                                    }}
-                                >
-                                    Swap
-                                </Button>
+                        {buttons ? (
+                            <Grid container item xs={12} spacing="5px" justifyContent="center">
+                                {enableSwap ? (
+                                    <Grid item>
+                                        <Button
+                                            variant="contained"
+                                            startIcon={<SwapHorizIcon />}
+                                            onClick={() => {
+                                                setSelected(selected.toReversed());
+                                            }}
+                                        >
+                                            Swap
+                                        </Button>
+                                    </Grid>
+                                ) : null}
+                                {enableOf ? (
+                                    <Grid item>
+                                        <Button
+                                            variant="contained"
+                                            startIcon={of ? <RemoveIcon /> : <AddIcon />}
+                                            onClick={() => {
+                                                setOf((of) => !of);
+                                            }}
+                                        >
+                                            Of
+                                        </Button>
+                                    </Grid>
+                                ) : null}
+                                {enableThe ? (
+                                    <Grid item>
+                                        <Button
+                                            variant="contained"
+                                            startIcon={the ? <RemoveIcon /> : <AddIcon />}
+                                            onClick={() => {
+                                                setThe((the) => !the);
+                                            }}
+                                        >
+                                            the
+                                        </Button>
+                                    </Grid>
+                                ) : null}
+                                {enableOf && enableSwap ? (
+                                    <Grid item>
+                                        <Button
+                                            variant="contained"
+                                            startIcon={<SwapCallsIcon />}
+                                            onClick={() => {
+                                                setSelected(selected.toReversed());
+                                                setOf((of) => !of);
+                                            }}
+                                        >
+                                            Swap and Toggle Of
+                                        </Button>
+                                    </Grid>
+                                ) : null}
                             </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="contained"
-                                    startIcon={of ? <RemoveIcon /> : <AddIcon />}
-                                    onClick={() => {
-                                        setOf((of) => !of);
-                                    }}
-                                >
-                                    Of
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<SwapCallsIcon />}
-                                    onClick={() => {
-                                        setSelected(selected.toReversed());
-                                        setOf((of) => !of);
-                                    }}
-                                >
-                                    Swap and Toggle Of
-                                </Button>
-                            </Grid>
-                        </Grid>
+                        ) : null}
                         {additionalOptions != null && selectedAdditionalOption != null && (
                             <Grid item xs={12}>
                                 <AdditionalOptions
@@ -304,12 +350,32 @@ function rollDiceAnimation(rollButtonRef: React.RefObject<SVGSVGElement>) {
 export default function Crucible({
     tables,
     titles,
+    n = 2,
     additionalOptions,
+    color = undefined,
+    textColor = undefined,
+    oneWord = false,
+    defaultOf = false,
+    defaultThe = false,
+    enableThe = defaultThe,
+    enableOf = true,
+    buttons = true,
+    enableSwap = true,
     disableBackwards = false,
 }: {
     tables: string[][][];
     titles?: string[];
+    n?: number;
     additionalOptions?: AddlOption[];
+    color?: string;
+    textColor?: string;
+    oneWord?: boolean;
+    buttons?: boolean;
+    defaultOf?: boolean;
+    defaultThe?: boolean;
+    enableThe?: boolean;
+    enableOf?: boolean;
+    enableSwap?: boolean;
     disableBackwards?: boolean;
 }) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
@@ -342,7 +408,6 @@ export default function Crucible({
         if (manualInput && manualRolls.length > 0) {
             const rollChunks = _.chunk(manualRolls, 2);
             const newSelectedInTables = [];
-            console.debug("updateRolls 1", manualRolls);
             for (const i in rollChunks) {
                 const rollChunk = rollChunks[i];
                 if (rollChunk.length == 2) {
@@ -351,7 +416,6 @@ export default function Crucible({
                     );
                 }
             }
-            console.debug("updateRolls", rollChunks, newSelectedInTables);
             setSelectedInTables(newSelectedInTables);
         }
     }, 200);
@@ -374,13 +438,11 @@ export default function Crucible({
                                     value={manualRolls}
                                     onChange={(e) => {
                                         const newValue = e.target.value;
-                                        console.debug("manual rolls", manualRolls);
                                         if (newValue.length <= 2 * tables.length) {
                                             const newManualRolls = e.target.value.replaceAll(
                                                 /[^1-6]/g,
                                                 ""
                                             );
-                                            console.debug("new manual rolls", newManualRolls);
                                             setManualRolls(newManualRolls);
                                         }
                                     }}
@@ -430,8 +492,18 @@ export default function Crucible({
                         >
                             <CrucibleResults
                                 options={selectedInTables}
+                                n={n}
                                 additionalOptions={additionalOptions}
                                 disableBackwards={disableBackwards}
+                                oneWord={oneWord}
+                                enableOf={enableOf}
+                                defaultOf={defaultOf}
+                                enableThe={enableThe}
+                                defaultThe={defaultThe}
+                                enableSwap={enableSwap}
+                                buttons={buttons}
+                                color={color}
+                                textColor={textColor}
                             />
                         </div>
                     </Grid>
@@ -460,7 +532,12 @@ export default function Crucible({
                                             </>
                                         ) : null}
                                         <CardContent>
-                                            <D66 table={table} selected={selectedInTables[index]} />
+                                            <D66
+                                                table={table}
+                                                selected={selectedInTables[index]}
+                                                color={color}
+                                                textColor={textColor}
+                                            />
                                         </CardContent>
                                     </Card>
                                 </div>

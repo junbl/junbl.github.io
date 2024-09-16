@@ -1,5 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { colors } from "../../theme";
 
 export type SelectedCell = {
     row: number;
@@ -9,7 +10,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     root: {},
     table: {},
 }));
-export default function D66({ table, selected }: { table: string[][]; selected: string[] }) {
+export default function D66({
+    table,
+    selected,
+    color = undefined,
+    textColor = undefined,
+}: {
+    table: string[][];
+    selected: string[];
+    color?: string;
+    textColor?: string;
+}) {
     const classes = useStyles();
     return (
         <TableContainer component={(props) => <Paper className={classes.root} {...props}></Paper>}>
@@ -24,7 +35,7 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
                                 // fontSize: "100pt",
                                 // borderBottom: "2px solid black",
                                 "& td": {
-                                    fontSize: {xs: "0.8rem", sm: "1rem"}
+                                    fontSize: { xs: "0.8rem", sm: "1rem" },
                                 },
                             }}
                         >
@@ -35,10 +46,12 @@ export default function D66({ table, selected }: { table: string[][]; selected: 
                                     sx={
                                         selected && selected.includes(cell)
                                             ? {
-                                                  backgroundColor: (theme) =>
-                                                      theme.palette.primary.main,
-                                                  color: (theme) =>
-                                                      theme.palette.background.default,
+                                                  backgroundColor:
+                                                      color ||
+                                                      ((theme) => theme.palette.primary.main),
+                                                  color:
+                                                      textColor ||
+                                                      ((theme) => theme.palette.background.default),
                                               }
                                             : undefined
                                     }
