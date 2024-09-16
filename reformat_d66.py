@@ -9,7 +9,7 @@ try:
 except IndexError:
     outfiles = [sys.stdout]
 num_tables = len(outfiles)
-alternating = True
+alternating = False
 
 tables = [[] for _ in range(num_tables+1)]
 with open(file, "r") as f:
@@ -22,7 +22,7 @@ with open(file, "r") as f:
                 current_table = 0
         else:
             lineno += 1
-            if lineno == 6:
+            if lineno == 7:
                 lineno = 0
                 current_table += 1
         print(current_table)

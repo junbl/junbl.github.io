@@ -41,6 +41,7 @@ function CrucibleResults({
     buttons = true,
     disableBackwards = false,
     defaultOf = false,
+    oneWord = false,
     defaultThe = false,
     enableThe = defaultThe,
     enableOf = true,
@@ -49,6 +50,7 @@ function CrucibleResults({
     options: string[][];
     n?: number;
     additionalOptions?: AddlOption[];
+    oneWord?: boolean;
     buttons?: boolean;
     defaultOf?: boolean;
     enableOf?: boolean;
@@ -207,7 +209,7 @@ function CrucibleResults({
                                 align="center"
                                 sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
-                                {selectedForDisplay.join(" ")}
+                                {selectedForDisplay.join(oneWord ? "" : " ")}
                             </Typography>
                         </Grid>
                         {buttons ? (
@@ -346,6 +348,7 @@ export default function Crucible({
     titles,
     n = 2,
     additionalOptions,
+    oneWord = false,
     defaultOf = false,
     defaultThe = false,
     enableThe = defaultThe,
@@ -358,6 +361,7 @@ export default function Crucible({
     titles?: string[];
     n?: number;
     additionalOptions?: AddlOption[];
+    oneWord?: boolean;
     buttons?: boolean;
     defaultOf?: boolean;
     defaultThe?: boolean;
@@ -487,6 +491,7 @@ export default function Crucible({
                                 n={n}
                                 additionalOptions={additionalOptions}
                                 disableBackwards={disableBackwards}
+                                oneWord={oneWord}
                                 enableOf={enableOf}
                                 defaultOf={defaultOf}
                                 enableThe={enableThe}

@@ -12,6 +12,7 @@ const SpellCrucible = lazy(() => import("./dice/crucible/Spell"));
 const HeritageCrucible = lazy(() => import("./dice/crucible/Heritage"));
 const PatronCrucible = lazy(() => import("./dice/crucible/Patron"));
 const WeaponOriginCrucible = lazy(() => import("./dice/crucible/WeaponOrigin"));
+const HerbalismCrucible = lazy(() => import("./dice/crucible/Herbalism"));
 const RollsWithThornsAnalysis = lazy(() => import("./dice/analysis/RollsWithThornsAnalysis"));
 const DiminishingPoolsAnalysis = lazy(() => import("./dice/analysis/DiminishingPoolsAnalysis"));
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     {
         path: "/dice/crucible/weaponorigin",
         element: <WeaponOriginCrucible />,
+    },
+    {
+        path: "/dice/crucible/herbalism",
+        element: <HerbalismCrucible />,
     },
     {
         path: "/dice/analysis/rollswiththorns",

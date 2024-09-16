@@ -52,6 +52,11 @@ export default function Home() {
                     Icon={EscalatorWarningIcon}
                     to="crucible/patron"
                 />
+                <ButtonItem
+                    title="Herbalism"
+                    Icon={EscalatorWarningIcon}
+                    to="crucible/herbalism"
+                />
             </Grid>
             <SectionHeader title="ANALYSIS" />
             <Grid container justifyContent="center">
