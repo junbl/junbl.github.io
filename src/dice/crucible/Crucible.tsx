@@ -38,10 +38,10 @@ function CrucibleResults({
     options,
     n = 2,
     additionalOptions,
+    separator = " ",
     buttons = true,
     disableBackwards = false,
     defaultOf = false,
-    oneWord = false,
     defaultThe = false,
     enableThe = defaultThe,
     enableOf = true,
@@ -52,7 +52,7 @@ function CrucibleResults({
     options: string[][];
     n?: number;
     additionalOptions?: AddlOption[];
-    oneWord?: boolean;
+    separator?: string;
     buttons?: boolean;
     defaultOf?: boolean;
     enableOf?: boolean;
@@ -213,7 +213,12 @@ function CrucibleResults({
                                 align="center"
                                 sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
-                                {selectedForDisplay.join(oneWord ? "" : " ")}
+                                {selectedForDisplay.map((s, i) => (
+                                    <>
+                                        {i > 0 ? <b>{separator}</b> : null}
+                                        {s}
+                                    </>
+                                ))}
                             </Typography>
                         </Grid>
                         {buttons ? (
@@ -354,7 +359,7 @@ export default function Crucible({
     additionalOptions,
     color = undefined,
     textColor = undefined,
-    oneWord = false,
+    separator = " ",
     defaultOf = false,
     defaultThe = false,
     enableThe = defaultThe,
@@ -369,7 +374,7 @@ export default function Crucible({
     additionalOptions?: AddlOption[];
     color?: string;
     textColor?: string;
-    oneWord?: boolean;
+    separator?: string;
     buttons?: boolean;
     defaultOf?: boolean;
     defaultThe?: boolean;
@@ -495,7 +500,7 @@ export default function Crucible({
                                 n={n}
                                 additionalOptions={additionalOptions}
                                 disableBackwards={disableBackwards}
-                                oneWord={oneWord}
+                                separator={separator}
                                 enableOf={enableOf}
                                 defaultOf={defaultOf}
                                 enableThe={enableThe}

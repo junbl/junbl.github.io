@@ -9,7 +9,7 @@ export default function Herbalism() {
         <HeaderFooter title="Herbalism Crucible" back="/dice" grimwild={false}>
             <Crucible
                 tables={[herbalismName, herbalismForm]}
-                oneWord={true}
+                separator=""
                 buttons={false}
                 color={colors.green}
                 titles={["Name", "Form"]}

@@ -5,7 +5,12 @@ import HeaderFooter from "../HeaderFooter";
 export default function WeaponOrigin() {
     return (
         <HeaderFooter title="Weapon Origin Crucible" back="/dice">
-            <Crucible disableBackwards={true} buttons={false} tables={[weaponOrigin]} />
+            <Crucible
+                disableBackwards={true}
+                enableOf={false}
+                separator=" and "
+                tables={[weaponOrigin, weaponOrigin]}
+            />
         </HeaderFooter>
     );
 }
