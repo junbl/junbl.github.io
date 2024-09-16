@@ -4,6 +4,8 @@ import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
 import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import PeopleIcon from '@mui/icons-material/People';
+import SpaIcon from '@mui/icons-material/Spa';
 import BarChartIcon from "@mui/icons-material/BarChart";
 import HeaderFooter from "./HeaderFooter";
 import { colors } from "../theme";
@@ -54,8 +56,13 @@ export default function Home() {
                 />
                 <ButtonItem
                     title="Herbalism"
-                    Icon={EscalatorWarningIcon}
+                    Icon={SpaIcon}
                     to="crucible/herbalism"
+                />
+                <ButtonItem
+                    title="American Names"
+                    Icon={PeopleIcon}
+                    to="crucible/americannames"
                 />
             </Grid>
             <SectionHeader title="ANALYSIS" />

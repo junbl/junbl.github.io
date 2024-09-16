@@ -5,7 +5,7 @@ import HeaderFooter from "../HeaderFooter";
 
 export default function Herbalism() {
     return (
-        <HeaderFooter title="Herbalism Crucible" back="/dice">
+        <HeaderFooter title="Herbalism Crucible" back="/dice" grimwild={false}>
             <Crucible
                 tables={[herbalismName, herbalismForm]}
                 oneWord={true}
