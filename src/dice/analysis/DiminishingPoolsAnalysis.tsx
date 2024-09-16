@@ -1,15 +1,5 @@
-import { Grid, Table, TableBody, TableCell, TableRow, TableHead } from "@mui/material";
-import {
-    BarChart,
-    XAxis,
-    YAxis,
-    Tooltip,
-    Legend,
-    Bar,
-    Rectangle,
-    ResponsiveContainer,
-    Label,
-} from "recharts";
+import { Grid, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { BarChart, XAxis, YAxis, Tooltip, Bar, Rectangle, ResponsiveContainer } from "recharts";
 import data from "../../static/stats/pool_length.json";
 import HeaderFooter from "../HeaderFooter";
 import { useEffect, useState } from "react";

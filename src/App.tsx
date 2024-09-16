@@ -2,13 +2,16 @@ import { lazy } from "react";
 import "./App.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
 import { darkTheme } from "./theme";
 
 const Home = lazy(() => import("./home/Home"));
 const GrimwildHome = lazy(() => import("./dice/Home"));
-const GmCrucible = lazy(() => import("./dice/crucible/GmCrucible"));
-const SpellCrucible = lazy(() => import("./dice/crucible/SpellCrucible"));
+const GmCrucible = lazy(() => import("./dice/crucible/Gm"));
+const SpellCrucible = lazy(() => import("./dice/crucible/Spell"));
+const HeritageCrucible = lazy(() => import("./dice/crucible/Heritage"));
+const PatronCrucible = lazy(() => import("./dice/crucible/Patron"));
+const WeaponOriginCrucible = lazy(() => import("./dice/crucible/WeaponOrigin"));
 const RollsWithThornsAnalysis = lazy(() => import("./dice/analysis/RollsWithThornsAnalysis"));
 const DiminishingPoolsAnalysis = lazy(() => import("./dice/analysis/DiminishingPoolsAnalysis"));
 
@@ -23,11 +26,31 @@ const router = createBrowserRouter([
     },
     {
         path: "/dice/gmcrucible",
-        element: <GmCrucible />,
+        loader: async () => redirect("/dice/crucible/gm"),
     },
     {
         path: "/dice/spellcrucible",
+        loader: async () => redirect("/dice/crucible/spell"),
+    },
+    {
+        path: "/dice/crucible/gm",
+        element: <GmCrucible />,
+    },
+    {
+        path: "/dice/crucible/spell",
         element: <SpellCrucible />,
+    },
+    {
+        path: "/dice/crucible/heritage",
+        element: <HeritageCrucible />,
+    },
+    {
+        path: "/dice/crucible/patron",
+        element: <PatronCrucible />,
+    },
+    {
+        path: "/dice/crucible/weaponorigin",
+        element: <WeaponOriginCrucible />,
     },
     {
         path: "/dice/analysis/rollswiththorns",
