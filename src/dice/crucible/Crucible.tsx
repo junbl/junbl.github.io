@@ -20,7 +20,7 @@ import SwapCallsIcon from "@mui/icons-material/SwapCalls";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import { colors } from "../../theme";
 
@@ -87,7 +87,7 @@ function CrucibleResults({
         return [selected, of, defaultThe || (enableThe && of)] as const;
     };
     const [s, o, t] = defaultSelection();
-    const [selected, setSelected] = useState<string[]>(s);
+    const [selected, setSelected] = useState<(string | undefined)[]>(s);
     const [of, setOf] = useState(o);
     const [the, setThe] = useState(t);
     const randomAdditionalOption = () => (additionalOptions ? d(additionalOptions.length - 1) : 0);
@@ -108,7 +108,7 @@ function CrucibleResults({
     if (options.length == 0 || !options.some((row) => row.length > 0)) {
         return null;
     }
-    let selectedForDisplay = selected;
+    let selectedForDisplay = selected.filter(s => s);
     if (the) {
         selectedForDisplay = [...selectedForDisplay];
         selectedForDisplay.splice(1, 0, "the");
@@ -125,21 +125,25 @@ function CrucibleResults({
         row: string[],
         rowIndex: number
     ) => {
-        const newSelected = [...selected];
+        const newSelected: (string | undefined)[] = [...selected];
         if (optionIsSelected) {
-            // console.debug("already selected, removing");
-            newSelected.splice(optionSelectedIndex, 1);
+            newSelected[optionSelectedIndex] = undefined;
+            console.debug(`already selected, removing: ${newSelected}`);
         } else if (options.length == n) {
-            // console.debug(`max options selected, setting option for ${rowIndex}`);
+            console.debug(
+                `max options selected, setting option for row ${rowIndex}: ${newSelected}`
+            );
             newSelected[rowIndex] = option;
+            console.debug(`set option for row ${rowIndex}: ${newSelected}`);
         } else {
-            let otherSelectedInRowIndex = selected.findIndex((s) => row.includes(s));
-            if (newSelected.length >= n) {
+            let otherSelectedInRowIndex = selected.findIndex((s) => s && row.includes(s));
+            if ((newSelected.filter(s => s)).length >= n) {
                 let indexToReplace = 0;
                 if (otherSelectedInRowIndex == -1) {
                     let closestRowIndex = 0;
                     for (const [rowIndexForSelected, selectedIndex] of selected.map(
-                        (s, index) => [options.findIndex((row) => row.includes(s)), index] as const
+                        (s, index) =>
+                            [options.findIndex((row) => s && row.includes(s)), index] as const
                     )) {
                         if (
                             Math.abs(rowIndexForSelected - rowIndex) <=
@@ -150,16 +154,16 @@ function CrucibleResults({
                         }
                     }
                 } else {
-                    // console.debug("selected more than max options, replacing other in row");
+                    console.debug("selected more than max options, replacing other in row");
                     indexToReplace = otherSelectedInRowIndex;
                 }
                 newSelected.splice(indexToReplace, 1, option);
             } else {
                 if (otherSelectedInRowIndex !== -1) {
-                    // console.debug("selected less than max + option in row already selected");
+                    console.debug("selected less than max + option in row already selected");
                     newSelected.splice(otherSelectedInRowIndex, 1, option);
                 } else {
-                    // console.debug("selected less than max options, inserting at start");
+                    console.debug("selected less than max options, inserting at start");
                     newSelected.splice(rowIndex, 0, option);
                 }
             }
@@ -214,10 +218,10 @@ function CrucibleResults({
                                 sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
                                 {selectedForDisplay.map((s, i) => (
-                                    <>
+                                    <Fragment key={i}>
                                         {i > 0 ? <b>{separator}</b> : null}
                                         {s}
-                                    </>
+                                    </Fragment>
                                 ))}
                             </Typography>
                         </Grid>
