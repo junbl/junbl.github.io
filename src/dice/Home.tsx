@@ -6,6 +6,9 @@ import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import PeopleIcon from "@mui/icons-material/People";
 import SpaIcon from "@mui/icons-material/Spa";
+import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
+import SportsMartialArtsIcon from "@mui/icons-material/SportsMartialArts";
+import FlareIcon from "@mui/icons-material/Flare";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import HeaderFooter from "./HeaderFooter";
 import { colors } from "../theme";
@@ -54,7 +57,18 @@ export default function Home() {
                     Icon={EscalatorWarningIcon}
                     to="crucible/patron"
                 />
+                <ButtonItem
+                    title="Druidic Tells"
+                    Icon={EmojiNatureIcon}
+                    to="crucible/druidictells"
+                />
                 <ButtonItem title="Herbalism" Icon={SpaIcon} to="crucible/herbalism" />
+                <ButtonItem
+                    title="Martial Arts"
+                    Icon={SportsMartialArtsIcon}
+                    to="crucible/martialarts"
+                />
+                <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
                 <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
             </Grid>
             <SectionHeader title="ANALYSIS" />
