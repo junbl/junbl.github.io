@@ -32,7 +32,11 @@ export function d6(): number {
     return d(6);
 }
 
-export type AddlOption = { name: string; color?: keyof typeof colors };
+export type AddlOption = {
+    name: string;
+    color?: keyof typeof colors;
+    description?: string;
+};
 
 function CrucibleResults({
     options,
@@ -94,6 +98,7 @@ function CrucibleResults({
     const [selectedAdditionalOption, setSelectedAdditionalOption] = useState<OptionIndex>(
         randomAdditionalOption()
     );
+    console.debug("sao", additionalOptions, selectedAdditionalOption);
     const c = additionalOptions && additionalOptions[Number(selectedAdditionalOption)].color;
     const selectedColor = c && colors[c];
     const rerollAll = () => {
@@ -108,7 +113,7 @@ function CrucibleResults({
     if (options.length == 0 || !options.some((row) => row.length > 0)) {
         return null;
     }
-    let selectedForDisplay = selected.filter(s => s);
+    let selectedForDisplay = selected.filter((s) => s);
     if (the) {
         selectedForDisplay = [...selectedForDisplay];
         selectedForDisplay.splice(1, 0, "the");
@@ -137,7 +142,7 @@ function CrucibleResults({
             console.debug(`set option for row ${rowIndex}: ${newSelected}`);
         } else {
             let otherSelectedInRowIndex = selected.findIndex((s) => s && row.includes(s));
-            if ((newSelected.filter(s => s)).length >= n) {
+            if (newSelected.filter((s) => s).length >= n) {
                 let indexToReplace = 0;
                 if (otherSelectedInRowIndex == -1) {
                     let closestRowIndex = 0;
@@ -339,7 +344,9 @@ function AdditionalOptions({
         >
             {options.map((option, index) => (
                 <MenuItem key={option.name} value={index}>
-                    {option.name}
+                    <Tooltip enterDelay={500} placement="right" title={option.description}>
+                        <div>{option.name}</div>
+                    </Tooltip>
                 </MenuItem>
             ))}
         </Select>
