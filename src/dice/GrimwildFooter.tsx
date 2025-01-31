@@ -17,25 +17,25 @@ export default function GrimwildFooter() {
                 <Container maxWidth="md">
                     <Typography variant="body2" align="center">
                         <br />
-                        This page contains content from <b>Grimwild</b> by J.D. Maxwell, licensed
-                        under{" "}
+                        This page is based on <b>Moxie</b> and <b>Grimwild</b> © 2024 by J.D.
+                        Maxwell, licensed under{" "}
                         <Link
                             href="https://creativecommons.org/licenses/by/4.0/legalcode.en"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            CC-BY&nbsp;
+                            CC-BY 4.0&nbsp;
                             <OpenInNewIcon fontSize="inherit" />
                         </Link>
                         .
                         <br />
                         Check out{" "}
                         <Link
-                            href="https://www.backerkit.com/c/projects/OddityPress/grimwild"
+                            href="https://www.odditypress.com/"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Grimwild&nbsp;on&nbsp;BackerKit&nbsp;
+                            Oddity Press
                             <OpenInNewIcon fontSize="inherit" />
                         </Link>{" "}
                         for more information!
