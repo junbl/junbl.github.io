@@ -4,8 +4,11 @@ import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
 import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
-import PeopleIcon from '@mui/icons-material/People';
-import SpaIcon from '@mui/icons-material/Spa';
+import PeopleIcon from "@mui/icons-material/People";
+import SpaIcon from "@mui/icons-material/Spa";
+import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
+import SportsMartialArtsIcon from "@mui/icons-material/SportsMartialArts";
+import FlareIcon from "@mui/icons-material/Flare";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import HeaderFooter from "./HeaderFooter";
 import { colors } from "../theme";
@@ -25,7 +28,7 @@ function SectionHeader({ title, top = false }: { title: string; top?: boolean })
 export default function Home() {
     const ButtonItem = ({ title, to, Icon }: { title: string; to: string; Icon: any }) => {
         return (
-            <Grid item xs={12} spacing={3}>
+            <Grid item xs={12}>
                 <Button
                     href={"/dice/" + to}
                     size="large"
@@ -55,15 +58,18 @@ export default function Home() {
                     to="crucible/patron"
                 />
                 <ButtonItem
-                    title="Herbalism"
-                    Icon={SpaIcon}
-                    to="crucible/herbalism"
+                    title="Druidic Tells"
+                    Icon={EmojiNatureIcon}
+                    to="crucible/druidictells"
                 />
+                <ButtonItem title="Herbalism" Icon={SpaIcon} to="crucible/herbalism" />
                 <ButtonItem
-                    title="American Names"
-                    Icon={PeopleIcon}
-                    to="crucible/americannames"
+                    title="Martial Arts"
+                    Icon={SportsMartialArtsIcon}
+                    to="crucible/martialarts"
                 />
+                <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
+                <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
             </Grid>
             <SectionHeader title="ANALYSIS" />
             <Grid container justifyContent="center">

@@ -20,7 +20,7 @@ import SwapCallsIcon from "@mui/icons-material/SwapCalls";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import { colors } from "../../theme";
 
@@ -32,16 +32,20 @@ export function d6(): number {
     return d(6);
 }
 
-export type AddlOption = { name: string; color?: keyof typeof colors };
+export type AddlOption = {
+    name: string;
+    color?: keyof typeof colors;
+    description?: string;
+};
 
 function CrucibleResults({
     options,
     n = 2,
     additionalOptions,
+    separator = " ",
     buttons = true,
     disableBackwards = false,
     defaultOf = false,
-    oneWord = false,
     defaultThe = false,
     enableThe = defaultThe,
     enableOf = true,
@@ -52,7 +56,7 @@ function CrucibleResults({
     options: string[][];
     n?: number;
     additionalOptions?: AddlOption[];
-    oneWord?: boolean;
+    separator?: string;
     buttons?: boolean;
     defaultOf?: boolean;
     enableOf?: boolean;
@@ -87,13 +91,14 @@ function CrucibleResults({
         return [selected, of, defaultThe || (enableThe && of)] as const;
     };
     const [s, o, t] = defaultSelection();
-    const [selected, setSelected] = useState<string[]>(s);
+    const [selected, setSelected] = useState<(string | undefined)[]>(s);
     const [of, setOf] = useState(o);
     const [the, setThe] = useState(t);
     const randomAdditionalOption = () => (additionalOptions ? d(additionalOptions.length - 1) : 0);
     const [selectedAdditionalOption, setSelectedAdditionalOption] = useState<OptionIndex>(
         randomAdditionalOption()
     );
+    console.debug("sao", additionalOptions, selectedAdditionalOption);
     const c = additionalOptions && additionalOptions[Number(selectedAdditionalOption)].color;
     const selectedColor = c && colors[c];
     const rerollAll = () => {
@@ -108,7 +113,7 @@ function CrucibleResults({
     if (options.length == 0 || !options.some((row) => row.length > 0)) {
         return null;
     }
-    let selectedForDisplay = selected;
+    let selectedForDisplay = selected.filter((s) => s);
     if (the) {
         selectedForDisplay = [...selectedForDisplay];
         selectedForDisplay.splice(1, 0, "the");
@@ -125,21 +130,25 @@ function CrucibleResults({
         row: string[],
         rowIndex: number
     ) => {
-        const newSelected = [...selected];
+        const newSelected: (string | undefined)[] = [...selected];
         if (optionIsSelected) {
-            // console.debug("already selected, removing");
-            newSelected.splice(optionSelectedIndex, 1);
+            newSelected[optionSelectedIndex] = undefined;
+            console.debug(`already selected, removing: ${newSelected}`);
         } else if (options.length == n) {
-            // console.debug(`max options selected, setting option for ${rowIndex}`);
+            console.debug(
+                `max options selected, setting option for row ${rowIndex}: ${newSelected}`
+            );
             newSelected[rowIndex] = option;
+            console.debug(`set option for row ${rowIndex}: ${newSelected}`);
         } else {
-            let otherSelectedInRowIndex = selected.findIndex((s) => row.includes(s));
-            if (newSelected.length >= n) {
+            let otherSelectedInRowIndex = selected.findIndex((s) => s && row.includes(s));
+            if (newSelected.filter((s) => s).length >= n) {
                 let indexToReplace = 0;
                 if (otherSelectedInRowIndex == -1) {
                     let closestRowIndex = 0;
                     for (const [rowIndexForSelected, selectedIndex] of selected.map(
-                        (s, index) => [options.findIndex((row) => row.includes(s)), index] as const
+                        (s, index) =>
+                            [options.findIndex((row) => s && row.includes(s)), index] as const
                     )) {
                         if (
                             Math.abs(rowIndexForSelected - rowIndex) <=
@@ -150,16 +159,16 @@ function CrucibleResults({
                         }
                     }
                 } else {
-                    // console.debug("selected more than max options, replacing other in row");
+                    console.debug("selected more than max options, replacing other in row");
                     indexToReplace = otherSelectedInRowIndex;
                 }
                 newSelected.splice(indexToReplace, 1, option);
             } else {
                 if (otherSelectedInRowIndex !== -1) {
-                    // console.debug("selected less than max + option in row already selected");
+                    console.debug("selected less than max + option in row already selected");
                     newSelected.splice(otherSelectedInRowIndex, 1, option);
                 } else {
-                    // console.debug("selected less than max options, inserting at start");
+                    console.debug("selected less than max options, inserting at start");
                     newSelected.splice(rowIndex, 0, option);
                 }
             }
@@ -213,7 +222,12 @@ function CrucibleResults({
                                 align="center"
                                 sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
-                                {selectedForDisplay.join(oneWord ? "" : " ")}
+                                {selectedForDisplay.map((s, i) => (
+                                    <Fragment key={i}>
+                                        {i > 0 ? <b>{separator}</b> : null}
+                                        {s}
+                                    </Fragment>
+                                ))}
                             </Typography>
                         </Grid>
                         {buttons ? (
@@ -330,7 +344,9 @@ function AdditionalOptions({
         >
             {options.map((option, index) => (
                 <MenuItem key={option.name} value={index}>
-                    {option.name}
+                    <Tooltip enterDelay={500} placement="right" title={option.description}>
+                        <div>{option.name}</div>
+                    </Tooltip>
                 </MenuItem>
             ))}
         </Select>
@@ -354,7 +370,7 @@ export default function Crucible({
     additionalOptions,
     color = undefined,
     textColor = undefined,
-    oneWord = false,
+    separator = " ",
     defaultOf = false,
     defaultThe = false,
     enableThe = defaultThe,
@@ -369,7 +385,7 @@ export default function Crucible({
     additionalOptions?: AddlOption[];
     color?: string;
     textColor?: string;
-    oneWord?: boolean;
+    separator?: string;
     buttons?: boolean;
     defaultOf?: boolean;
     defaultThe?: boolean;
@@ -495,7 +511,7 @@ export default function Crucible({
                                 n={n}
                                 additionalOptions={additionalOptions}
                                 disableBackwards={disableBackwards}
-                                oneWord={oneWord}
+                                separator={separator}
                                 enableOf={enableOf}
                                 defaultOf={defaultOf}
                                 enableThe={enableThe}

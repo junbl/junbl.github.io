@@ -11,12 +11,14 @@ export default function HeaderFooter({
     back,
     info,
     infoDialog,
+    infoFile,
     grimwild = true,
 }: PropsWithChildren<{
     title: string;
     back?: string;
     info?: string;
     infoDialog?: ReactElement;
+    infoFile?: string;
     grimwild?: boolean;
 }>) {
     document.title = title;
@@ -38,6 +40,11 @@ export default function HeaderFooter({
                     </Tooltip>
                 ) : null}
                 {infoDialog ? <InfoDialog>{infoDialog}</InfoDialog> : null}
+                {infoFile ? (
+                    <IconButton size="large" edge="end" href={infoFile}>
+                        <InfoIcon />
+                    </IconButton>
+                ) : null}
             </Toolbar>
             <Divider sx={{ marginBottom: 8 }} />
             {children}

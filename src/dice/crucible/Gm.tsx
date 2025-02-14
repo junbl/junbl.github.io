@@ -4,7 +4,6 @@ import Crucible from "./Crucible";
 import HeaderFooter from "../HeaderFooter";
 
 export default function Gm() {
-    document.title = "GM Crucible";
     return (
         <HeaderFooter title="GM Crucible" back="/dice">
             <Crucible disableBackwards={true} tables={[gm1, gm2]} />

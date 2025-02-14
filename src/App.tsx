@@ -9,6 +9,10 @@ const Home = lazy(() => import("./home/Home"));
 const GrimwildHome = lazy(() => import("./dice/Home"));
 const GmCrucible = lazy(() => import("./dice/crucible/Gm"));
 const SpellCrucible = lazy(() => import("./dice/crucible/Spell"));
+const BarriersCrucible = lazy(() => import("./dice/crucible/Barriers"));
+const DruidicTellsCrucible = lazy(() => import("./dice/crucible/DruidicTells"));
+const MartialArtsCrucible = lazy(() => import("./dice/crucible/MartialArts"));
+const WildSurgeCrucible = lazy(() => import("./dice/crucible/WildSurge"));
 const HeritageCrucible = lazy(() => import("./dice/crucible/Heritage"));
 const PatronCrucible = lazy(() => import("./dice/crucible/Patron"));
 const WeaponOriginCrucible = lazy(() => import("./dice/crucible/WeaponOrigin"));
@@ -47,6 +51,18 @@ const router = createBrowserRouter([
         element: <HeritageCrucible />,
     },
     {
+        path: "/dice/crucible/druidictells",
+        element: <DruidicTellsCrucible />,
+    },
+    {
+        path: "/dice/crucible/martialarts",
+        element: <MartialArtsCrucible />,
+    },
+    {
+        path: "/dice/crucible/wildsurge",
+        element: <WildSurgeCrucible />,
+    },
+    {
         path: "/dice/crucible/patron",
         element: <PatronCrucible />,
     },
@@ -57,6 +73,10 @@ const router = createBrowserRouter([
     {
         path: "/dice/crucible/herbalism",
         element: <HerbalismCrucible />,
+    },
+    {
+        path: "/dice/crucible/barriers",
+        element: <BarriersCrucible />,
     },
     {
         path: "/dice/crucible/americannames",
