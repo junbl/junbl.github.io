@@ -20,7 +20,15 @@ import SwapCallsIcon from "@mui/icons-material/SwapCalls";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+    Dispatch,
+    Fragment,
+    PropsWithChildren,
+    SetStateAction,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import _ from "lodash";
 import { colors } from "../../theme";
 
@@ -38,6 +46,10 @@ export type AddlOption = {
     description?: string;
 };
 
+function BgText({ children }: PropsWithChildren<{}>) {
+    return <b style={{ color: colors.darkWhite }}>{children}</b>;
+}
+
 function CrucibleResults({
     options,
     n = 2,
@@ -46,27 +58,14 @@ function CrucibleResults({
     buttons = true,
     disableBackwards = false,
     defaultOf = false,
+    ofPosition = 1,
     defaultThe = false,
     enableThe = defaultThe,
     enableOf = true,
     enableSwap = true,
     color = undefined,
     textColor = undefined,
-}: {
-    options: string[][];
-    n?: number;
-    additionalOptions?: AddlOption[];
-    separator?: string;
-    buttons?: boolean;
-    defaultOf?: boolean;
-    enableOf?: boolean;
-    defaultThe?: boolean;
-    enableThe?: boolean;
-    enableSwap?: boolean;
-    disableBackwards?: boolean;
-    color?: string;
-    textColor?: string;
-}) {
+}: { options: string[][] } & CrucibleResultsProps) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const defaultSelection = () => {
         if (options.length == 0 || options[0].length == 0) {
@@ -88,13 +87,18 @@ function CrucibleResults({
             selected.reverse();
         }
         of = defaultOf || of;
-        return [selected, of, defaultThe || (enableThe && of)] as const;
+        return [selected, of, defaultThe || (enableThe && of), firstRowLast] as const;
     };
-    const [s, o, t] = defaultSelection();
+    const [s, o, t, sw] = defaultSelection();
     const [selected, setSelected] = useState<(string | undefined)[]>(s);
     const [of, setOf] = useState(o);
     const [the, setThe] = useState(t);
-    const randomAdditionalOption = () => (additionalOptions ? d(additionalOptions.length - 1) : 0);
+    const [swapped, setSwapped] = useState(sw);
+    const swap = () => {
+        setSelected(selected.toReversed());
+        setSwapped((s) => !s);
+    };
+    const randomAdditionalOption = () => (additionalOptions ? d(additionalOptions.length) : 0);
     const [selectedAdditionalOption, setSelectedAdditionalOption] = useState<OptionIndex>(
         randomAdditionalOption()
     );
@@ -104,6 +108,7 @@ function CrucibleResults({
     const rerollAll = () => {
         const [s, o, t] = defaultSelection();
         setSelected(s);
+        setSwapped(false);
         setOf(o);
         setThe(t);
         setSelectedAdditionalOption(randomAdditionalOption());
@@ -113,14 +118,14 @@ function CrucibleResults({
     if (options.length == 0 || !options.some((row) => row.length > 0)) {
         return null;
     }
-    let selectedForDisplay = selected.filter((s) => s);
+    let selectedForDisplay: (any | string | undefined)[] = selected.filter((s) => s);
     if (the) {
         selectedForDisplay = [...selectedForDisplay];
-        selectedForDisplay.splice(1, 0, "the");
+        selectedForDisplay.splice(ofPosition, 0, <BgText>the</BgText>);
     }
     if (of) {
         selectedForDisplay = [...selectedForDisplay];
-        selectedForDisplay.splice(1, 0, "of");
+        selectedForDisplay.splice(ofPosition, 0, <BgText>of</BgText>);
     }
 
     const onOptionClick = (
@@ -194,8 +199,32 @@ function CrucibleResults({
                     <Grid container justifyContent="center" alignItems="center" rowSpacing="5px">
                         {options.map((row, rowIndex) =>
                             row.map((option) => {
-                                const optionSelectedIndex = selected.indexOf(option);
-                                const optionIsSelected = optionSelectedIndex != -1;
+                                let optionSelectedIndex = -1;
+                                let optionIsSelected = false;
+                                if (n != options.length) {
+                                    optionSelectedIndex = selected.indexOf(option);
+                                    optionIsSelected = optionSelectedIndex != -1;
+                                } else {
+                                    optionIsSelected = selected.some((s, idx) => {
+                                        optionSelectedIndex = idx;
+                                        const expectedIndex = swapped
+                                            ? options.length - rowIndex - 1
+                                            : rowIndex;
+                                        console.debug(
+                                            "exp",
+                                            expectedIndex,
+                                            "sel",
+                                            optionSelectedIndex,
+                                            "opt",
+                                            option,
+                                            "selected",
+                                            s
+                                        );
+                                        return (
+                                            option === s && optionSelectedIndex === expectedIndex
+                                        );
+                                    });
+                                }
                                 return (
                                     <Grid key={option} item xs={12 / row.length}>
                                         <Button
@@ -222,12 +251,34 @@ function CrucibleResults({
                                 align="center"
                                 sx={{ minHeight: { xs: "120px", sm: "60px" } }}
                             >
-                                {selectedForDisplay.map((s, i) => (
-                                    <Fragment key={i}>
-                                        {i > 0 ? <b>{separator}</b> : null}
-                                        {s}
-                                    </Fragment>
-                                ))}
+                                {selectedForDisplay.map((s, i) => {
+                                    let sep;
+                                    if (typeof separator === "string") {
+                                        sep = i > 0 ? separator : null;
+                                    } else {
+                                        const sepIdx = separator.findIndex(
+                                            ([idx, _text]) => idx === i
+                                        );
+                                        if (sepIdx != -1) {
+                                            sep = separator[sepIdx][1];
+                                        } else {
+                                            sep = " ";
+                                        }
+                                    }
+                                    sep = sep?.split("\n").map((sep_line, sep_idx) => (
+                                        <>
+                                            {sep_idx > 0 ? <br /> : null}
+                                            {sep_line}
+                                        </>
+                                    ));
+
+                                    return (
+                                        <Fragment key={i}>
+                                            <BgText>{sep}</BgText>
+                                            {s}
+                                        </Fragment>
+                                    );
+                                })}
                             </Typography>
                         </Grid>
                         {buttons ? (
@@ -237,9 +288,7 @@ function CrucibleResults({
                                         <Button
                                             variant="contained"
                                             startIcon={<SwapHorizIcon />}
-                                            onClick={() => {
-                                                setSelected(selected.toReversed());
-                                            }}
+                                            onClick={swap}
                                         >
                                             Swap
                                         </Button>
@@ -277,7 +326,7 @@ function CrucibleResults({
                                             variant="contained"
                                             startIcon={<SwapCallsIcon />}
                                             onClick={() => {
-                                                setSelected(selected.toReversed());
+                                                swap();
                                                 setOf((of) => !of);
                                             }}
                                         >
@@ -363,6 +412,22 @@ function rollDiceAnimation(rollButtonRef: React.RefObject<SVGSVGElement>) {
     }
 }
 
+type CrucibleResultsProps = {
+    n?: number;
+    additionalOptions?: AddlOption[];
+    separator?: string | [number, string][];
+    buttons?: boolean;
+    defaultOf?: boolean;
+    ofPosition?: number;
+    enableOf?: boolean;
+    defaultThe?: boolean;
+    enableThe?: boolean;
+    enableSwap?: boolean;
+    disableBackwards?: boolean;
+    color?: string;
+    textColor?: string;
+};
+
 export default function Crucible({
     tables,
     titles,
@@ -372,6 +437,7 @@ export default function Crucible({
     textColor = undefined,
     separator = " ",
     defaultOf = false,
+    ofPosition = 1,
     defaultThe = false,
     enableThe = defaultThe,
     enableOf = true,
@@ -381,19 +447,7 @@ export default function Crucible({
 }: {
     tables: string[][][];
     titles?: string[];
-    n?: number;
-    additionalOptions?: AddlOption[];
-    color?: string;
-    textColor?: string;
-    separator?: string;
-    buttons?: boolean;
-    defaultOf?: boolean;
-    defaultThe?: boolean;
-    enableThe?: boolean;
-    enableOf?: boolean;
-    enableSwap?: boolean;
-    disableBackwards?: boolean;
-}) {
+} & CrucibleResultsProps) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const [selectedInTables, setSelectedInTables] = useState<string[][]>(
         Array(tables.length).fill([])
@@ -488,7 +542,9 @@ export default function Crucible({
                                 title={`Swap to ${manualInput ? "random" : "manual input"} mode`}
                             >
                                 <IconButton
-                                    onClick={() => setManualInput((manualInput) => !manualInput)}
+                                    onClick={() =>
+                                        setManualInput((manualInput: any) => !manualInput)
+                                    }
                                     edge="start"
                                     sx={{
                                         marginLeft: "8px",
@@ -514,6 +570,7 @@ export default function Crucible({
                                 separator={separator}
                                 enableOf={enableOf}
                                 defaultOf={defaultOf}
+                                ofPosition={ofPosition}
                                 enableThe={enableThe}
                                 defaultThe={defaultThe}
                                 enableSwap={enableSwap}

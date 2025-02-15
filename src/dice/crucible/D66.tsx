@@ -1,6 +1,5 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { colors } from "../../theme";
 
 export type SelectedCell = {
     row: number;

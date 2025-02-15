@@ -11,6 +11,7 @@ export const colors = {
     purple: "#bf94e6",
     pink: "#F48FB1",
     white: "#e8e8e8",
+    darkWhite: "#b4b4bf",
     lightGray: "#a2a3a6",
     gray: "#424346",
     darkGray: "#262626",

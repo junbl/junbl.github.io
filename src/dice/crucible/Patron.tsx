@@ -7,9 +7,13 @@ export default function Patron() {
     return (
         <HeaderFooter title="Patron Crucible" back="/dice">
             <Crucible
-                tables={[patronEntity, patronDesires]}
+                tables={[patronEntity, patronEntity, patronDesires, patronDesires]}
                 defaultOf={true}
-                titles={["Entity", "Desires"]}
+                separator={[[4, " and "]]}
+                disableBackwards={true}
+                ofPosition={2}
+                n={4}
+                titles={["Nature", "Nature", "Desires", "Desires"]}
             />
         </HeaderFooter>
     );

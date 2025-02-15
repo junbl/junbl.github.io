@@ -1,4 +1,4 @@
-import { Button, Grid, Divider } from "@mui/material";
+import { Button, Grid, Divider, Collapse } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
@@ -12,6 +12,7 @@ import FlareIcon from "@mui/icons-material/Flare";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import HeaderFooter from "./HeaderFooter";
 import { colors } from "../theme";
+import { PropsWithChildren, useState } from "react";
 
 function SectionHeader({ title, top = false }: { title: string; top?: boolean }) {
     return (
@@ -25,8 +26,32 @@ function SectionHeader({ title, top = false }: { title: string; top?: boolean })
         </>
     );
 }
+function Section({ title, children }: PropsWithChildren<{ title: string }>) {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <h2
+                style={{ marginLeft: "125px", marginTop: "0px", color: colors.lightGray }}
+                onClick={() => {
+                    setOpen((o) => !o);
+                }}
+            >
+                {title}
+            </h2>
+            <Collapse in={open}>
+                <Grid container justifyContent="center">
+                    {children}
+                </Grid>
+            </Collapse>
+        </>
+    );
+}
 export default function Home() {
-    const ButtonItem = ({ title, to, Icon }: { title: string; to: string; Icon: any }) => {
+    const ButtonItem = ({ title, to, Icon }: { title: string; to?: string; Icon: any }) => {
+        if (to == undefined) {
+            const name = title.toLocaleLowerCase().replaceAll(" ", "");
+            to = `crucible/${name}`;
+        }
         return (
             <Grid item xs={12}>
                 <Button
@@ -43,15 +68,15 @@ export default function Home() {
     return (
         <HeaderFooter title="Dice tools">
             <SectionHeader title="CRUCIBLES" top={true} />
-            <Grid container justifyContent="center">
+            <ButtonItem title="GM" Icon={TipsAndUpdatesIcon} to="crucible/gm" />
+            <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
+            <Section title="PATHS">
                 <ButtonItem title="Spells" Icon={AutoFixHighIcon} to="crucible/spell" />
-                <ButtonItem title="GM" Icon={TipsAndUpdatesIcon} to="crucible/gm" />
                 <ButtonItem
                     title="Weapon Origin"
                     Icon={ShieldMoonIcon}
                     to="crucible/weaponorigin"
                 />
-                <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
                 <ButtonItem
                     title="Warlock Patron"
                     Icon={EscalatorWarningIcon}
@@ -69,8 +94,15 @@ export default function Home() {
                     to="crucible/martialarts"
                 />
                 <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
-                <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
-            </Grid>
+            </Section>
+            <Section title="EXPLORATION">
+                <ButtonItem title="Buildings" Icon={CottageIcon} />
+                <ButtonItem title="Settlements" Icon={CottageIcon} />
+                <ButtonItem title="Sites" Icon={CottageIcon} />
+                <ButtonItem title="Dangers" Icon={CottageIcon} />
+                <ButtonItem title="Curiosities" Icon={CottageIcon} />
+            </Section>
+            <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
             <SectionHeader title="ANALYSIS" />
             <Grid container justifyContent="center">
                 <ButtonItem

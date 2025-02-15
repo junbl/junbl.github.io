@@ -8,10 +8,30 @@ export default function MartialArtsCrucible() {
     return (
         <HeaderFooter title="Martial Arts Crucible" back="/dice">
             <Crucible
-                n={3}
-                tables={[concept, stance, weapon]}
-                separator=", "
-                titles={["Concepts", "Stances and Moves", "Weapons"]}
+                n={7}
+                separator={[
+                    [0, "Concepts: "],
+                    [1, " and "],
+                    [2, ".\nStances and moves: "],
+                    [3, ", "],
+                    [4, ", and "],
+                    [5, ".\nWeapons: "],
+                    [6, " and "],
+                    [7, "."],
+                ]}
+                tables={[concept, concept, stance, stance, stance, weapon, weapon]}
+                enableOf={false}
+                disableBackwards={true}
+                enableSwap={false}
+                titles={[
+                    "Concepts",
+                    "Concepts",
+                    "Stances and Moves",
+                    "Stances and Moves",
+                    "Stances and Moves",
+                    "Weapons",
+                    "Weapons",
+                ]}
             />
         </HeaderFooter>
     );
