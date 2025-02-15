@@ -9,7 +9,14 @@ import SpaIcon from "@mui/icons-material/Spa";
 import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
 import SportsMartialArtsIcon from "@mui/icons-material/SportsMartialArts";
 import FlareIcon from "@mui/icons-material/Flare";
+import { ReactComponent as Square } from "../static/square-svgrepo-com.svg";
+import { ReactComponent as Diamond } from "../static/diamond-svgrepo-com.svg";
+import { ReactComponent as Circle } from "../static/circle-svgrepo-com.svg";
+import { ReactComponent as Asterisk } from "../static/asterisk-svgrepo-com.svg";
+import { ReactComponent as Wall } from "../static/wall-fill-svgrepo-com.svg";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import HeaderFooter from "./HeaderFooter";
 import { colors } from "../theme";
 import { PropsWithChildren, useState } from "react";
@@ -31,11 +38,12 @@ function Section({ title, children }: PropsWithChildren<{ title: string }>) {
     return (
         <>
             <h2
-                style={{ marginLeft: "125px", marginTop: "0px", color: colors.lightGray }}
+                style={{ marginLeft: "150px", marginBottom: "0px", color: colors.lightGray }}
                 onClick={() => {
                     setOpen((o) => !o);
                 }}
             >
+                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 {title}
             </h2>
             <Collapse in={open}>
@@ -68,9 +76,11 @@ export default function Home() {
     return (
         <HeaderFooter title="Dice tools">
             <SectionHeader title="CRUCIBLES" top={true} />
-            <ButtonItem title="GM" Icon={TipsAndUpdatesIcon} to="crucible/gm" />
-            <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
-            <Section title="PATHS">
+            <Section title="MOXIE">
+                <ButtonItem title="GM" Icon={TipsAndUpdatesIcon} to="crucible/gm" />
+            </Section>
+            <Section title="GRIMWILD">
+                <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
                 <ButtonItem title="Spells" Icon={AutoFixHighIcon} to="crucible/spell" />
                 <ButtonItem
                     title="Weapon Origin"
@@ -95,14 +105,17 @@ export default function Home() {
                 />
                 <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
             </Section>
-            <Section title="EXPLORATION">
+            <Section title="GRIMWILD EXPLORATION">
                 <ButtonItem title="Buildings" Icon={CottageIcon} />
-                <ButtonItem title="Settlements" Icon={CottageIcon} />
-                <ButtonItem title="Sites" Icon={CottageIcon} />
-                <ButtonItem title="Dangers" Icon={CottageIcon} />
-                <ButtonItem title="Curiosities" Icon={CottageIcon} />
+                <ButtonItem title="Settlements" Icon={Square} />
+                <ButtonItem title="Sites" Icon={Circle} />
+                <ButtonItem title="Dangers" Icon={Diamond} />
+                <ButtonItem title="Curiosities" Icon={Asterisk} />
+                <ButtonItem title="Barriers" Icon={Wall} />
             </Section>
-            <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
+            <Section title="CALL OF THE DARK">
+                <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
+            </Section>
             <SectionHeader title="ANALYSIS" />
             <Grid container justifyContent="center">
                 <ButtonItem

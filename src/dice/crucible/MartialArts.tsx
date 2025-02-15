@@ -12,12 +12,12 @@ export default function MartialArtsCrucible() {
                 separator={[
                     [0, "Concepts: "],
                     [1, " and "],
-                    [2, ".\nStances and moves: "],
+                    [2, "\n\nStances and moves: "],
                     [3, ", "],
                     [4, ", and "],
-                    [5, ".\nWeapons: "],
+                    [5, "\n\nWeapons: "],
                     [6, " and "],
-                    [7, "."],
+                    [7, ""],
                 ]}
                 tables={[concept, concept, stance, stance, stance, weapon, weapon]}
                 enableOf={false}
