@@ -1,4 +1,4 @@
-import { Button, Grid, Divider } from "@mui/material";
+import { Button, Grid, Divider, Collapse } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
@@ -9,9 +9,17 @@ import SpaIcon from "@mui/icons-material/Spa";
 import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
 import SportsMartialArtsIcon from "@mui/icons-material/SportsMartialArts";
 import FlareIcon from "@mui/icons-material/Flare";
+import { ReactComponent as Square } from "../static/square-svgrepo-com.svg";
+import { ReactComponent as Diamond } from "../static/diamond-svgrepo-com.svg";
+import { ReactComponent as Circle } from "../static/circle-svgrepo-com.svg";
+import { ReactComponent as Asterisk } from "../static/asterisk-svgrepo-com.svg";
+import { ReactComponent as Wall } from "../static/wall-fill-svgrepo-com.svg";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import HeaderFooter from "./HeaderFooter";
 import { colors } from "../theme";
+import { PropsWithChildren, useState } from "react";
 
 function SectionHeader({ title, top = false }: { title: string; top?: boolean }) {
     return (
@@ -25,8 +33,33 @@ function SectionHeader({ title, top = false }: { title: string; top?: boolean })
         </>
     );
 }
+function Section({ title, children }: PropsWithChildren<{ title: string }>) {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <h2
+                style={{ marginLeft: "150px", marginBottom: "0px", color: colors.lightGray }}
+                onClick={() => {
+                    setOpen((o) => !o);
+                }}
+            >
+                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                {title}
+            </h2>
+            <Collapse in={open}>
+                <Grid container justifyContent="center">
+                    {children}
+                </Grid>
+            </Collapse>
+        </>
+    );
+}
 export default function Home() {
-    const ButtonItem = ({ title, to, Icon }: { title: string; to: string; Icon: any }) => {
+    const ButtonItem = ({ title, to, Icon }: { title: string; to?: string; Icon: any }) => {
+        if (to == undefined) {
+            const name = title.toLocaleLowerCase().replaceAll(" ", "");
+            to = `crucible/${name}`;
+        }
         return (
             <Grid item xs={12}>
                 <Button
@@ -43,15 +76,17 @@ export default function Home() {
     return (
         <HeaderFooter title="Dice tools">
             <SectionHeader title="CRUCIBLES" top={true} />
-            <Grid container justifyContent="center">
-                <ButtonItem title="Spells" Icon={AutoFixHighIcon} to="crucible/spell" />
+            <Section title="MOXIE">
                 <ButtonItem title="GM" Icon={TipsAndUpdatesIcon} to="crucible/gm" />
+            </Section>
+            <Section title="GRIMWILD">
+                <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
+                <ButtonItem title="Spells" Icon={AutoFixHighIcon} to="crucible/spell" />
                 <ButtonItem
                     title="Weapon Origin"
                     Icon={ShieldMoonIcon}
                     to="crucible/weaponorigin"
                 />
-                <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
                 <ButtonItem
                     title="Warlock Patron"
                     Icon={EscalatorWarningIcon}
@@ -69,8 +104,18 @@ export default function Home() {
                     to="crucible/martialarts"
                 />
                 <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
+            </Section>
+            <Section title="GRIMWILD EXPLORATION">
+                <ButtonItem title="Buildings" Icon={CottageIcon} />
+                <ButtonItem title="Settlements" Icon={Square} />
+                <ButtonItem title="Sites" Icon={Circle} />
+                <ButtonItem title="Dangers" Icon={Diamond} />
+                <ButtonItem title="Curiosities" Icon={Asterisk} />
+                <ButtonItem title="Barriers" Icon={Wall} />
+            </Section>
+            <Section title="CALL OF THE DARK">
                 <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
-            </Grid>
+            </Section>
             <SectionHeader title="ANALYSIS" />
             <Grid container justifyContent="center">
                 <ButtonItem

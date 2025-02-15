@@ -2,14 +2,20 @@ import { lazy } from "react";
 import "./App.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { darkTheme } from "./theme";
+import cruciblesList from "./static/d66/crucibles.json";
 
 const Home = lazy(() => import("./home/Home"));
 const GrimwildHome = lazy(() => import("./dice/Home"));
 const GmCrucible = lazy(() => import("./dice/crucible/Gm"));
 const SpellCrucible = lazy(() => import("./dice/crucible/Spell"));
 const BarriersCrucible = lazy(() => import("./dice/crucible/Barriers"));
+const SettlementsCrucible = lazy(() => import("./dice/crucible/Settlements"));
+const SitesCrucible = lazy(() => import("./dice/crucible/Sites"));
+const DangersCrucible = lazy(() => import("./dice/crucible/Dangers"));
+const CuriositiesCrucible = lazy(() => import("./dice/crucible/Curiosities"));
+const BuildingsCrucible = lazy(() => import("./dice/crucible/Buildings"));
 const DruidicTellsCrucible = lazy(() => import("./dice/crucible/DruidicTells"));
 const MartialArtsCrucible = lazy(() => import("./dice/crucible/MartialArts"));
 const WildSurgeCrucible = lazy(() => import("./dice/crucible/WildSurge"));
@@ -29,14 +35,6 @@ const router = createBrowserRouter([
     {
         path: "/dice",
         element: <GrimwildHome />,
-    },
-    {
-        path: "/dice/gmcrucible",
-        loader: async () => redirect("/dice/crucible/gm"),
-    },
-    {
-        path: "/dice/spellcrucible",
-        loader: async () => redirect("/dice/crucible/spell"),
     },
     {
         path: "/dice/crucible/gm",
@@ -79,6 +77,26 @@ const router = createBrowserRouter([
         element: <BarriersCrucible />,
     },
     {
+        path: "/dice/crucible/settlements",
+        element: <SettlementsCrucible />,
+    },
+    {
+        path: "/dice/crucible/sites",
+        element: <SitesCrucible />,
+    },
+    {
+        path: "/dice/crucible/dangers",
+        element: <DangersCrucible />,
+    },
+    {
+        path: "/dice/crucible/curiosities",
+        element: <CuriositiesCrucible />,
+    },
+    {
+        path: "/dice/crucible/buildings",
+        element: <BuildingsCrucible />,
+    },
+    {
         path: "/dice/crucible/americannames",
         element: <AmericanNamesCrucible />,
     },
@@ -97,7 +115,19 @@ export default function App() {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             {/* <Header/> */}
+            <StaticDataLoader />
             <RouterProvider router={router} />
         </ThemeProvider>
+    );
+}
+
+function StaticDataLoader() {
+
+    return (
+        <>
+            {cruciblesList.map((file) => {
+                <link rel={file.replace(/\.json$/, "")} href={`%PUBLIC_URL%/crucibles/${file}`} />;
+            })}
+        </>
     );
 }

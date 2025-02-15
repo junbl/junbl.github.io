@@ -3,7 +3,6 @@ import rollsData from "../../static/stats/rolls.json";
 import rollsMathPaper from "../../static/moxie-dice-probabilities/moxie-dice-probabilities.pdf";
 import HeaderFooter from "../HeaderFooter";
 import {
-    Alert,
     Button,
     Checkbox,
     Dialog,

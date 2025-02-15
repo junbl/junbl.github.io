@@ -1,15 +1,15 @@
-import barrier1 from "../../static/d66/barrier1.json";
-import barrier2 from "../../static/d66/barrier2.json";
+import data1 from "../../static/d66/dangers1.json";
+import data2 from "../../static/d66/dangers2.json";
 import realities from "../../static/d66/realities.json";
 import Crucible, { AddlOption } from "./Crucible";
 import HeaderFooter from "../HeaderFooter";
 
-export default function Barriers() {
+export default function Dangers() {
     return (
-        <HeaderFooter title="Barriers" back="/dice" >
+        <HeaderFooter title="Dangers Crucible" back="/dice">
             <Crucible
+                tables={[data1, data2]}
                 disableBackwards={true}
-                tables={[barrier1, barrier2]}
                 additionalOptions={realities as AddlOption[]}
             />
         </HeaderFooter>

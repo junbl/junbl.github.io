@@ -120,7 +120,7 @@ You can see how this is getting a little complex. I'm gonna take a small detour 
 
 The binomial distribution represents the the number of "successes" in $n$ "trials" or "experiments". For instance: if you roll a six-sided die, how many times do you get a 6 if you roll it 4 times? In this case, the "success" is rolling a 6 (which has probability $p = 1/6$) and the trials is the number of rolls ($n = 4$).
 
-To find the probability that you get a certain number of successes $k$, you need to multiply the probability that you "succeeded" $k$ times by the probability that you failed the rest of the times, and then also multiply that by the number of ways that you could select $k$ values out of $n$ total. Hopefully the successes and failures part makes intuitive sense, but that last part might be confusing, so let's dig into that. To illustrate why we need that, let's find a slightly different probability - what's the likelihood that we roll a 6 on the first trial, and then no more 6s on any of the other trials?
+To find the probability that you get a certain number of successes $k$, you need to multiply the probability that you "succeeded" $k$ times by the probability that you failed the rest of the times, and then also multiply that by the number of ways that you could select $k$ values out of $n$ total. Hopefully the successes and failures part makes intuitive sense, but that last part might be confusing, so let's dig into that. To illustrate why we need that, let's find a slightly different probability---what's the likelihood that we roll a 6 on the first trial, and then no more 6s on any of the other trials?
 
 $ 1/6 dot 5/6 dot 5/6 dot 5/6 $
 
@@ -402,7 +402,7 @@ p_D (d, t) &&=& p_G (d) dot (1 - p_T (t, 0)) \
 &&+& p_P (d) dot ( 1 - (p_T (t, 0) + p_T (t, 1) + p_T (t, 2))) \
 $
 
-Smite me now if be she not ugly as sin, but at least she's closed form.#footnote[If you remember the exact right amount of probability, you may be asking---why don't we use the CDF here? That's what it's for! Because the CDF of the binomial is ass on a turkey stick. Something called the regularized incomplete beta function? Integrals of inverse sines of square roots? This isn't trig! Do me a favor and lose five pounds immediately or get out of my building like now! Get out!]
+Smite me now if be she not ugly as sin, but at least she's closed form.#footnote[If you remember the exact right amount of probability (like me), you may be asking---why don't we use the CDF here? After all, that's what it's for! Well, because the CDF of the binomial is ass on a turkey stick. Something called the regularized incomplete beta function? Integrals of inverse sines of square roots? This isn't trig! Do me a favor and lose five pounds immediately or get out of my building like now! Get out!]
 
 
 #align(center, table(
@@ -461,7 +461,7 @@ The calculation with thorns is the same as above, using these different definiti
 = Mastery dice
 But wait, I hear you say! There are modifications to these results that _aren't_ just changing the distribution of single-roll results! Namely, mastery dice.
 
-Mastery dice are special six-sided dice that result in a Critical every time they come up 6 - no need for two rolls. If you do get multiple 6s, and one of them is a mastery die, then you get an additional bonus.
+Mastery dice are special six-sided dice that result in a Critical every time they come up 6---no need for two rolls. If you do get multiple 6s, and one of them is a mastery die, then you get an additional bonus.
 
 How does this change our calculations? Let's treat the mastery dice separately from the rest of the of the dice, so we'll call the number of mastery dice $m$. Mastery dice don't do anything special on a Grim or Messy, so we can say:
 
