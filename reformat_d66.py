@@ -10,19 +10,20 @@ except IndexError:
     outfiles = [sys.stdout]
 num_tables = len(outfiles)
 alternating = True
+rows = 6
 
 tables = [[] for _ in range(num_tables+1)]
 with open(file, "r") as f:
     current_table = 0
     lineno = 0
-    for line in itertools.batched(f.read().splitlines(), 6):
+    for line in itertools.batched(f.read().splitlines(), rows):
         if alternating:
             current_table += 1
             if current_table == num_tables:
                 current_table = 0
         else:
             lineno += 1
-            if lineno == 7:
+            if lineno == rows + 1:
                 lineno = 0
                 current_table += 1
         print(current_table)
