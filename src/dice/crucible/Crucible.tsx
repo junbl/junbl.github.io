@@ -271,21 +271,25 @@ function CrucibleResults({
                                             {sep_line}
                                         </>
                                     ));
+                                    let squish = false;
+                                    if (typeof s === "string") {
+                                        if (selected[i + 1]?.startsWith("-s")) {
+                                            s = s.replace(/'s$/, "");
+                                        } else if (selected[i + 1]?.startsWith("-")) {
+                                            s = s.replace(/'s$/, "s");
+                                        }
 
-                                    if (selectedForDisplay[i + 1]?.startsWith("-")) {
-                                        s = s.replace(/'s$/, "s");
-                                    }
-
-                                    const squish = s.startsWith("-");
-                                    if (squish) {
-                                        s = s.replace(/^-/, "");
-                                    }
-                                    if (
-                                        (selectedForDisplay.includes("Two") ||
-                                            selectedForDisplay.includes("Three")) &&
-                                        !["Two", "Three"].includes(s)
-                                    ) {
-                                        s += "s";
+                                        squish = s.startsWith("-");
+                                        if (squish) {
+                                            s = s.replace(/^-/, "");
+                                        }
+                                        if (
+                                            (selected.includes("Two") ||
+                                                selected.includes("Three")) &&
+                                            !["Two", "Three"].includes(s)
+                                        ) {
+                                            s += "s";
+                                        }
                                     }
 
                                     return (
