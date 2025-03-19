@@ -104,10 +104,12 @@ export default function Home() {
                     to="crucible/martialarts"
                 />
                 <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
+                <ButtonItem title="Distinctive Features" Icon={PeopleIcon} />
             </Section>
             <Section title="GRIMWILD EXPLORATION">
                 <ButtonItem title="Buildings" Icon={CottageIcon} />
                 <ButtonItem title="Settlements" Icon={Square} />
+                <ButtonItem title="Settlement Names" Icon={CottageIcon} />
                 <ButtonItem title="Sites" Icon={Circle} />
                 <ButtonItem title="Dangers" Icon={Diamond} />
                 <ButtonItem title="Curiosities" Icon={Asterisk} />

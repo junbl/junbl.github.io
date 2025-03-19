@@ -86,7 +86,7 @@ function CrucibleResults({
             of = false;
             selected.reverse();
         }
-        of = defaultOf || of;
+        of = enableOf && (defaultOf || of);
         return [selected, of, defaultThe || (enableThe && of), firstRowLast] as const;
     };
     const [s, o, t, sw] = defaultSelection();
@@ -272,9 +272,25 @@ function CrucibleResults({
                                         </>
                                     ));
 
+                                    if (selectedForDisplay[i + 1]?.startsWith("-")) {
+                                        s = s.replace(/'s$/, "s");
+                                    }
+
+                                    const squish = s.startsWith("-");
+                                    if (squish) {
+                                        s = s.replace(/^-/, "");
+                                    }
+                                    if (
+                                        (selectedForDisplay.includes("Two") ||
+                                            selectedForDisplay.includes("Three")) &&
+                                        !["Two", "Three"].includes(s)
+                                    ) {
+                                        s += "s";
+                                    }
+
                                     return (
                                         <Fragment key={i}>
-                                            <BgText>{sep}</BgText>
+                                            {squish ? null : <BgText>{sep}</BgText>}
                                             {s}
                                         </Fragment>
                                     );

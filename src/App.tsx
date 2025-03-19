@@ -24,6 +24,9 @@ const PatronCrucible = lazy(() => import("./dice/crucible/Patron"));
 const WeaponOriginCrucible = lazy(() => import("./dice/crucible/WeaponOrigin"));
 const HerbalismCrucible = lazy(() => import("./dice/crucible/Herbalism"));
 const AmericanNamesCrucible = lazy(() => import("./dice/crucible/AmericanNames"));
+const BardInstrumentCrucible = lazy(() => import("./dice/crucible/BardInstrument"));
+const DistinctiveFeaturesCrucible = lazy(() => import("./dice/crucible/DistinctiveFeatures"));
+const SettlementNamesCrucible = lazy(() => import("./dice/crucible/SettlementNames"));
 const RollsWithThornsAnalysis = lazy(() => import("./dice/analysis/RollsWithThornsAnalysis"));
 const DiminishingPoolsAnalysis = lazy(() => import("./dice/analysis/DiminishingPoolsAnalysis"));
 
@@ -95,6 +98,18 @@ const router = createBrowserRouter([
     {
         path: "/dice/crucible/buildings",
         element: <BuildingsCrucible />,
+    },
+    {
+        path: "/dice/crucible/bardinstrument",
+        element: <BardInstrumentCrucible />,
+    },
+    {
+        path: "/dice/crucible/distinctivefeatures",
+        element: <DistinctiveFeaturesCrucible />,
+    },
+    {
+        path: "/dice/crucible/settlementnames",
+        element: <SettlementNamesCrucible />,
     },
     {
         path: "/dice/crucible/americannames",
