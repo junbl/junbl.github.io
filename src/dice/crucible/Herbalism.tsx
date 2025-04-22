@@ -10,6 +10,7 @@ export default function Herbalism() {
             <Crucible
                 tables={[herbalismName, herbalismForm]}
                 separator=""
+                enableOf={false}
                 buttons={false}
                 color={colors.green}
                 titles={["Name", "Form"]}
