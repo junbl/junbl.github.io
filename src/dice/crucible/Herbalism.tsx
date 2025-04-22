@@ -11,6 +11,7 @@ export default function Herbalism() {
                 tables={[herbalismName, herbalismForm]}
                 separator=""
                 enableOf={false}
+                disableBackwards={true}
                 buttons={false}
                 color={colors.green}
                 titles={["Name", "Form"]}
