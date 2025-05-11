@@ -3,6 +3,7 @@ import rollsData from "../../static/stats/rolls.json";
 import rollsMathPaper from "../../static/moxie-dice-probabilities/moxie-dice-probabilities.pdf";
 import HeaderFooter from "../HeaderFooter";
 import {
+    Tooltip as MaterialTooltip,
     Button,
     Checkbox,
     Dialog,
@@ -18,6 +19,9 @@ import {
     TextField,
     useMediaQuery,
     useTheme,
+    Stack,
+    Typography,
+    IconButton,
 } from "@mui/material";
 import { BarChart, Bar, Rectangle, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -34,7 +38,7 @@ const barColors: Record<string, string> = {
     messy: colors.yellow,
     perfect: colors.green,
     critical: colors.blue,
-    "double critical": colors.purple,
+    double_critical: colors.purple,
 };
 
 const defaultGrim = 1 / 2;
@@ -112,14 +116,14 @@ function pdt(
         );
     }
 
-    return [
-        { result: "disaster", proportion: p_disaster },
-        { result: "grim", proportion: p_grim },
-        { result: "messy", proportion: p_messy },
-        { result: "perfect", proportion: p_perfect },
-        { result: "critical", proportion: p_critical },
-        { result: "double critical", proportion: p_doubleCritical },
-    ];
+    return {
+        disaster: p_disaster,
+        grim: p_grim,
+        messy: p_messy,
+        perfect: p_perfect,
+        critical: p_critical,
+        double_critical: p_doubleCritical,
+    };
 }
 
 function NumDiceInput({
@@ -153,7 +157,7 @@ function NumDiceInput({
                     id={title}
                     labelId={title}
                     onChange={(e) => onChange(e.target.value)}
-                    sx={{ minWidth: { sm: "250px", xs: "175px" } }}
+                    sx={{ minWidth: { sm: "96px", xs: "96px" } }}
                 >
                     {options.map((option) => (
                         <MenuItem key={option} value={option}>
@@ -163,13 +167,13 @@ function NumDiceInput({
                 </Select>
             ) : (
                 <OutlinedInput
-                    // inputProps={{ min, max }}
                     value={selected}
                     type="number"
                     label={title}
                     id={title}
                     onChange={(e) => onChange(e.target.value)}
-                    sx={{ minWidth: { sm: "250px", xs: "175px" } }}
+                    sx={{ minWidth: { sm: "175px", xs: "175px" }, maxWidth: { sm: "175px" } }}
+                    inputProps={{ style: { fontSize: 40 } }}
                 />
             )}
         </FormControl>
@@ -243,7 +247,14 @@ export default function RollsWithThornsAnalysis() {
             Number(selectedNumThorns),
             Number(selectedNumMastery),
             remap
-        ) || []
+        ) || {
+            disaster: 0,
+            grim: 0,
+            messy: 0,
+            perfect: 0,
+            critical: 0,
+            double_critical: 0,
+        }
     );
     useEffect(() => {
         console.debug("recomputing probabilities", remap);
@@ -263,21 +274,19 @@ export default function RollsWithThornsAnalysis() {
 
     if (Number(selectedNumMastery) == 0 && _.isEmpty(remap)) {
         let totalAnalytical = 0;
-        for (const resultAnalytical of selectedProportions) {
-            totalAnalytical += resultAnalytical.proportion;
+        for (const [result, proportion] of Object.entries(selectedProportions)) {
+            totalAnalytical += proportion;
             let totalMonteCarlo = 0;
             for (const resultMonteCarlo of selectedRow) {
                 totalMonteCarlo += resultMonteCarlo.proportion;
-                if (resultAnalytical.result == resultMonteCarlo.result) {
-                    if (
-                        Math.abs(resultAnalytical.proportion - resultMonteCarlo.proportion) > 0.01
-                    ) {
+                if (result == resultMonteCarlo.result) {
+                    if (Math.abs(proportion - resultMonteCarlo.proportion) > 0.01) {
                         console.error(
                             "Didn't match!",
                             selectedNumDice,
                             selectedNumThorns,
-                            resultAnalytical.result,
-                            resultAnalytical.proportion,
+                            result,
+                            proportion,
                             resultMonteCarlo.proportion
                         );
                     }
@@ -289,7 +298,7 @@ export default function RollsWithThornsAnalysis() {
                     selectedNumDice,
                     selectedNumThorns,
                     totalMonteCarlo,
-                    resultAnalytical.proportion,
+                    proportion,
                     selectedRow
                 );
             }
@@ -315,16 +324,17 @@ export default function RollsWithThornsAnalysis() {
     );
     return (
         <HeaderFooter title="Rolls with Thorns" back="/dice" infoFile={rollsMathPaper}>
-            <Grid container justifyContent={"center"}>
+            <Grid
+                container
+                justifyContent={"center"}
+                marginLeft={{ xs: 1, sm: 0 }}
+                marginRight={{ xs: 1, sm: 0 }}
+            >
                 <Grid item>
-                    <Grid
-                        container
-                        spacing={2}
-                        // marginLeft={{ xs: 5, sm: 0 }}
-                    >
+                    <Grid container spacing={2}>
                         <Grid item>
                             <NumDiceInput
-                                title="Number of dice"
+                                title="Dice"
                                 selected={selectedNumDice}
                                 setSelected={setSelectedNumDice}
                                 mobileScreen={mobileScreen}
@@ -332,7 +342,7 @@ export default function RollsWithThornsAnalysis() {
                         </Grid>
                         <Grid item>
                             <NumDiceInput
-                                title="Number of thorns"
+                                title="Thorns"
                                 selected={selectedNumThorns}
                                 setSelected={setSelectedNumThorns}
                                 mobileScreen={mobileScreen}
@@ -340,35 +350,64 @@ export default function RollsWithThornsAnalysis() {
                         </Grid>
                         <Grid item>
                             <NumDiceInput
-                                title="Number of mastery dice"
+                                title="Mastery Dice"
                                 selected={selectedNumMastery}
                                 setSelected={setSelectedNumMastery}
                                 mobileScreen={mobileScreen}
                             />
                         </Grid>
                         <Grid item>
-                            <Button
-                                variant="contained"
-                                size="small"
+                            <MaterialTooltip title="The average number of consequences you'll get on this roll. Includes the probability of a disaster, grim, or messy, with disaster weighted twice as much.">
+                                <Stack spacing={0}>
+                                    <Typography variant="h2" component="h3">
+                                        {(
+                                            selectedProportions.messy +
+                                            selectedProportions.grim +
+                                            selectedProportions.disaster * 2
+                                        ).toFixed(2)}
+                                    </Typography>
+                                    <>Consequences</>
+                                </Stack>
+                            </MaterialTooltip>
+                        </Grid>
+                        <Grid item>
+                            <MaterialTooltip title="The average number of successes you'll get on this roll. Includes the probability of a messy, perfect, or critical, with critical weighted twice as much.">
+                                <Stack spacing={0}>
+                                    <Typography variant="h2" component="h3">
+                                        {(
+                                            selectedProportions.messy +
+                                            selectedProportions.perfect +
+                                            selectedProportions.critical * 2 +
+                                            selectedProportions.double_critical * 2
+                                        ).toFixed(2)}
+                                    </Typography>
+                                    <>Successes</>
+                                </Stack>
+                            </MaterialTooltip>
+                        </Grid>
+                        <Grid item>
+                            <IconButton
+                                // variant="contained"
+                                size="large"
                                 onClick={(e) => {
                                     setSettingsOpen((s) => !s);
                                 }}
-                                startIcon={<Settings />}
-                                sx={{
-                                    minHeight: "50px",
-                                    minWidth: "100px",
-                                    fontSize: "20pt",
-                                }}
+
+                                // sx={{
+                                //     minHeight: "50px",
+                                //     minWidth: "100px",
+                                //     fontSize: "20pt",
+                                // }}
                             >
-                                Settings
-                            </Button>
+                                <Settings />
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Dialog
                     open={settingsOpen}
-                    onClose={(e) => {
-                        setSettingsOpen((s) => false);
+                    onClose={(_e) => {
+                        setSettingsOpen(false);
                     }}
                 >
                     <DialogContent>
@@ -448,15 +487,16 @@ export default function RollsWithThornsAnalysis() {
                             <BarChart
                                 width={8}
                                 height={4}
-                                data={selectedProportions.map((r) => ({
-                                    ...r,
-                                    fill: barColors[r.result],
+                                data={Object.entries(selectedProportions).map(([r, p]) => ({
+                                    result: r.replace("_", " "),
+                                    proportion: p,
+                                    fill: barColors[r],
                                 }))}
                                 margin={{
                                     top: 30,
                                     right: 30,
                                     left: 5,
-                                    bottom: 30,
+                                    bottom: 60,
                                 }}
                             >
                                 <XAxis
