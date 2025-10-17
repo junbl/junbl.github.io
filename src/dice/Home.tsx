@@ -115,7 +115,7 @@ export default function Home() {
                 <ButtonItem title="Curiosities" Icon={Asterisk} />
                 <ButtonItem title="Barriers" Icon={Wall} />
             </Section>
-            <Section title="CALL OF THE DARK">
+            <Section title="HIDDEN VARIABLES">
                 <ButtonItem title="American Names" Icon={PeopleIcon} to="crucible/americannames" />
             </Section>
             <SectionHeader title="ANALYSIS" />

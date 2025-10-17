@@ -1,11 +1,39 @@
-import { Grid, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import {
+    Box,
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from "@mui/material";
 import { BarChart, XAxis, YAxis, Tooltip, Bar, Rectangle, ResponsiveContainer } from "recharts";
-import data from "../../static/stats/pool_length.json";
 import HeaderFooter from "../HeaderFooter";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { colors } from "../../theme";
+import { isEmpty, range } from "lodash";
+import binomcoef from "@stdlib/math-base-special-binomcoef";
 
 export type BarDatum = { name: string; proportion: number };
+
+const sum = (acc: number, i: number) => acc + i;
+
+function rollsUntilDepleted(p: number, n: number): number {
+    const trials = Math.pow(10, 4);
+    if (n == 0) {
+        return 1;
+    } else {
+        return range(0, trials)
+            .map((roll) => roll * probabilityNumberOfRollsToDeplete(p, n, roll))
+            .reduce(sum);
+    }
+}
+
+function probabilityNumberOfRollsToDeplete(p: number, n: number, r: number): number {
+    const q = 1 - p;
+    return Math.pow(1 - Math.pow(q, r), n) - Math.pow(1 - Math.pow(q, r - 1), n);
+}
 
 export function proportionFormat(value: number) {
     const proportion = value > 1e-3 ? value.toFixed(3) : value === 0 ? 0 : value.toExponential(3);
@@ -27,46 +55,66 @@ const info = (
     </>
 );
 export default function DiminishingPoolAnalysis() {
-    const [selectedNumDice, setSelectedNumDice] = useState(6);
+    const [p, setP] = useState(0.5);
+    const [selectedNumDice, setSelectedNumDice] = useState(4);
     const [selectedResults, setSelectedResults] = useState<BarDatum[]>([]);
+    const trials = 100;
+    const expectedValues = useMemo(
+        () => range(1, 100 + 1).map((n) => [n, rollsUntilDepleted(p, n)]),
+        []
+    );
+
     useEffect(() => {
-        const row = data.find((row) => row.size === selectedNumDice);
-        console.debug("row", row, selectedNumDice);
-        if (row != undefined) {
-            setSelectedResults(
-                Object.entries(row.rolls).map(([timesRolled, proportion]) => ({
-                    name: timesRolled,
-                    proportion,
-                }))
-            );
+        const epsilon = 1e-6;
+        const probabilities: [number, number][] = [];
+        let roll = 1;
+        let avg = 0;
+        const expectedValue = expectedValues[selectedNumDice - 1][1];
+        while (probabilities.length < trials && Math.abs(avg - expectedValue) > epsilon) {
+            const probability = probabilityNumberOfRollsToDeplete(p, selectedNumDice, roll);
+            probabilities.push([roll, probability]);
+            avg += roll * probability;
+            roll += 1;
         }
+        setSelectedResults(
+            probabilities.map(([timesRolled, proportion]) => ({
+                name: timesRolled.toString(),
+                proportion: proportion,
+            }))
+        );
     }, [selectedNumDice]);
 
     return (
         <HeaderFooter title="Diminishing Pools" back="/dice" infoDialog={info}>
             <Grid container>
                 <Grid item xs={12} sm={2}>
-                    <Table>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Dice</TableCell>
-                                <TableCell align="right">Average rolls until depleted</TableCell>
-                            </TableRow>
-                            {data.map((row, i) => (
-                                <TableRow
-                                    key={i}
-                                    hover={true}
-                                    selected={row.size === selectedNumDice}
-                                    onClick={() => {
-                                        setSelectedNumDice(row.size);
-                                    }}
-                                >
-                                    <TableCell>{row.size}</TableCell>
-                                    <TableCell align="right">{row.mean.toFixed(3)}</TableCell>
+                    <TableContainer sx={{ maxHeight: "30rem" }}>
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Dice</TableCell>
+                                    <TableCell align="right">
+                                        Average rolls until depleted
+                                    </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {expectedValues.map(([n, e]) => (
+                                    <TableRow
+                                        key={n}
+                                        hover={true}
+                                        selected={n === selectedNumDice}
+                                        onClick={() => {
+                                            setSelectedNumDice(n);
+                                        }}
+                                    >
+                                        <TableCell>{n}</TableCell>
+                                        <TableCell align="right">{e.toFixed(3)}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
                 <Grid item xs={12} sm={10} sx={{ minHeight: { xs: "90vh", sm: 100 } }}>
                     <ResponsiveContainer width="100%" height="100%">
@@ -98,7 +146,7 @@ export default function DiminishingPoolAnalysis() {
                             <Bar
                                 dataKey="proportion"
                                 fill={colors.blue}
-                                activeBar={<Rectangle fill={colors.green} stroke={colors.black} />}
+                                activeBar={<Rectangle fill={colors.pink} stroke={colors.black} />}
                             />
                             {/* <ReferenceLine x={3.2} strokeWidth={3} stroke="red" /> */}
                         </BarChart>
