@@ -1,9 +1,10 @@
 import GrimwildFooter from "./GrimwildFooter";
 import { Box, Dialog, DialogContent, Divider, IconButton, Toolbar, Tooltip } from "@mui/material";
-import { PropsWithChildren, ReactElement, useState } from "react";
+import { Dispatch, PropsWithChildren, ReactElement, SetStateAction, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import InfoIcon from "@mui/icons-material/Info";
 import { colors } from "../theme";
+import { Settings } from "@mui/icons-material";
 
 export default function HeaderFooter({
     title,
@@ -13,6 +14,8 @@ export default function HeaderFooter({
     infoDialog,
     infoFile,
     grimwild = true,
+    settingsDialogOpen,
+    setSettingsDialogOpen,
 }: PropsWithChildren<{
     title: string;
     back?: string;
@@ -20,6 +23,8 @@ export default function HeaderFooter({
     infoDialog?: ReactElement;
     infoFile?: string;
     grimwild?: boolean;
+    settingsDialogOpen?: boolean;
+    setSettingsDialogOpen?: Dispatch<SetStateAction<boolean>>;
 }>) {
     document.title = title;
     return (
@@ -45,8 +50,21 @@ export default function HeaderFooter({
                         <InfoIcon />
                     </IconButton>
                 ) : null}
+                {settingsDialogOpen != undefined && setSettingsDialogOpen != undefined ? (
+                    <Tooltip enterDelay={100} title={"Open Settings"}>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            onClick={(e) => {
+                                setSettingsDialogOpen((s) => !s);
+                            }}
+                        >
+                            <Settings />
+                        </IconButton>
+                    </Tooltip>
+                ) : null}
             </Toolbar>
-            <Divider sx={{ marginBottom: 8 }} />
+            <Divider sx={{ marginBottom: 2 }} />
             {children}
             {grimwild ? <GrimwildFooter /> : null}
         </>

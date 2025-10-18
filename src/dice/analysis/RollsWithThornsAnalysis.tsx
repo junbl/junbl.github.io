@@ -4,7 +4,6 @@ import rollsMathPaper from "../../static/moxie-dice-probabilities/moxie-dice-pro
 import HeaderFooter from "../HeaderFooter";
 import {
     Tooltip as MaterialTooltip,
-    Button,
     Checkbox,
     Dialog,
     DialogContent,
@@ -21,7 +20,6 @@ import {
     useTheme,
     Stack,
     Typography,
-    IconButton,
 } from "@mui/material";
 import { BarChart, Bar, Rectangle, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -30,6 +28,7 @@ import { colors } from "../../theme";
 import { proportionFormat } from "./DiminishingPoolsAnalysis";
 import binomcoef from "@stdlib/math-base-special-binomcoef";
 import { Settings } from "@mui/icons-material";
+import { parseFraction } from ".";
 
 const data: Record<string, Record<string, (typeof rollsData)["1"]["0"]>> = rollsData;
 const barColors: Record<string, string> = {
@@ -198,39 +197,6 @@ export default function RollsWithThornsAnalysis() {
     const selectedRow = (data[selectedNumDice] && data[selectedNumDice][selectedNumThorns]) || [];
     const remap: Record<string, number | undefined> = {};
 
-    const parseFraction = (p: string) => {
-        if (p === "") {
-            return undefined;
-        }
-        try {
-            const tryNumber = Number(p);
-            if (!Number.isNaN(tryNumber)) {
-                if (tryNumber >= 1) {
-                    return undefined;
-                } else {
-                    return tryNumber;
-                }
-            } else {
-                throw Error;
-            }
-        } catch {
-            try {
-                const re = /^\s*(\d+)\s*\/\s*(\d+)\s*$/;
-                const match = re.exec(p);
-                const firstMatch = match; // && match[0];
-                if (firstMatch) {
-                    const numerator = firstMatch[1];
-                    const denominator = firstMatch[2];
-                    console.debug("matched", firstMatch, numerator, denominator);
-                    return Number(numerator) / Number(denominator);
-                } else {
-                    return undefined;
-                }
-            } catch {
-                return undefined;
-            }
-        }
-    };
     if (grimProb != null) {
         remap["grim"] = parseFraction(grimProb);
     }
@@ -323,7 +289,13 @@ export default function RollsWithThornsAnalysis() {
             .map((r) => r.proportion)
     );
     return (
-        <HeaderFooter title="Rolls with Thorns" back="/dice" infoFile={rollsMathPaper}>
+        <HeaderFooter
+            title="Rolls with Thorns"
+            back="/dice"
+            infoFile={rollsMathPaper}
+            settingsDialogOpen={settingsOpen}
+            setSettingsDialogOpen={setSettingsOpen}
+        >
             <Grid
                 container
                 justifyContent={"center"}
@@ -384,23 +356,6 @@ export default function RollsWithThornsAnalysis() {
                                     <>Successes</>
                                 </Stack>
                             </MaterialTooltip>
-                        </Grid>
-                        <Grid item>
-                            <IconButton
-                                // variant="contained"
-                                size="large"
-                                onClick={(e) => {
-                                    setSettingsOpen((s) => !s);
-                                }}
-
-                                // sx={{
-                                //     minHeight: "50px",
-                                //     minWidth: "100px",
-                                //     fontSize: "20pt",
-                                // }}
-                            >
-                                <Settings />
-                            </IconButton>
                         </Grid>
                     </Grid>
                 </Grid>
