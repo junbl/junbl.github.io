@@ -1,8 +1,1 @@
-[
-    ["Binding", "Oozing", "Shimmering", "Shielding", "Curious", "Shadowy"],
-    ["Flaming", "Slow", "Wrathful", "Petrifying", "Hungry", "Majestic"],
-    ["Charming", "Silent", "Dazzling", "Piercing", "Jovial", "Frenzied"],
-    ["Cryptic", "Withering", "Primal", "Screaming", "Thunderous", "Prismatic"],
-    ["Freezing", "Seeping", "Ferocious", "Grasping", "Venomous", "Sickening"],
-    ["Mesmerising", "Unseen", "Expanding", "Swift", "Phantom", "Terrible"]
-]
+[["Binding", "Flaming", "Alluring", "Cryptic", "Freezing", "Mesmerizing"], ["Soothing", "Slow", "Silent", "Withering", "Shredding", "Unseen"], ["Grasping", "Dire", "Dazzling", "Primal", "False", "Expanding"], ["Shielding", "Petrifying", "Piercing", "Toxic", "Harmonic", "Swift"], ["Curious", "Ethereal", "Sense", "Thunderous", "Molten", "Phantom"], ["Shadowy", "Majestic", "Frenzied", "Prismatic", "Wild", "Whispering"]]
