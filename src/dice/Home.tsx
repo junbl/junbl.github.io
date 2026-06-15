@@ -2,6 +2,7 @@ import { Button, Grid, Collapse, Typography } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
@@ -119,6 +120,11 @@ export default function Home() {
                     title="Weapon Origin"
                     Icon={ShieldMoonIcon}
                     to="crucible/weaponorigin"
+                />
+                <ButtonItem
+                    title="Weapon Styles"
+                    Icon={RestaurantMenuIcon}
+                    to="crucible/weaponstyles"
                 />
                 <ButtonItem
                     title="Warlock Patron"

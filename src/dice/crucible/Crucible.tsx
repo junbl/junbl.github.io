@@ -63,6 +63,7 @@ function CrucibleResults({
     enableThe = defaultThe,
     enableOf = true,
     enableSwap = true,
+    showOptionsButtons = true,
     // color = undefined,
     // textColor = undefined,
 }: { options: string[][] } & CrucibleResultsProps) {
@@ -197,7 +198,7 @@ function CrucibleResults({
                     }}
                 >
                     <Grid container justifyContent="center" alignItems="center" rowSpacing="5px">
-                        {options.map((row, rowIndex) =>
+                        {showOptionsButtons && options.map((row, rowIndex) =>
                             row.map((option) => {
                                 let optionSelectedIndex = -1;
                                 let optionIsSelected = false;
@@ -454,6 +455,7 @@ type CrucibleResultsProps = {
     disableBackwards?: boolean;
     color?: string;
     textColor?: string;
+    showOptionsButtons: boolean;
 };
 
 export default function Crucible({
@@ -483,12 +485,27 @@ export default function Crucible({
     const [manualInput, setManualInput] = useState(false);
     const [manualRolls, setManualRolls] = useState("");
 
-    const getSelected = (table: string[][], row: number, column: number) => {
+    let allSingleResult = true;
+    for (const t of tables) {
+        const rows = t.length;
+        const columns = t[0].length;
+        if (rows == columns) {
+            allSingleResult = false;
+            break;
+        }
+    }
+
+    const getSelected = (
+        table: string[][],
+        row: number,
+        column: number,
+        singleResult: boolean = false
+    ) => {
         const selected = [];
         const rc = table[row][column];
         const cr = table[column][row];
         selected.push(rc);
-        if (rc != cr) {
+        if (!singleResult && rc != cr) {
             selected.push(cr);
         }
         return selected;
@@ -499,7 +516,8 @@ export default function Crucible({
         for (const i in tables) {
             const rows = tables[i].length;
             const columns = tables[i][0].length;
-            newSelectedInTables.push(getSelected(tables[i], d(rows), d(columns)));
+            const singleResult = rows != columns;
+            newSelectedInTables.push(getSelected(tables[i], d(rows), d(columns), singleResult));
         }
         setSelectedInTables(newSelectedInTables);
     };
@@ -608,6 +626,7 @@ export default function Crucible({
                                 buttons={buttons}
                                 color={color}
                                 textColor={textColor}
+                                showOptionsButtons={!allSingleResult}
                             />
                         </div>
                     </Grid>

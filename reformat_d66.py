@@ -19,7 +19,7 @@ print("output", outfiles)
 num_tables = len(outfiles)
 alternating = False
 rows = 6
-transpose = False
+transpose = True
 
 tables = [[] for _ in range(num_tables+1)]
 with open(file, "r") as f:
