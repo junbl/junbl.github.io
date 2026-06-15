@@ -421,9 +421,13 @@ function AdditionalOptions({
                 <MenuItem key={option.name} value={index}>
                     {/* <Tooltip enterDelay={500} placement="right" title={option.description}> */}
                     {/* <div> */}
-                    {option.name}:&nbsp;<Typography
-                        sx={{ color: colors.darkWhite }}
-                    >{option.description}</Typography>
+                    {option.name}{option.description ? (
+                        <>
+                            :&nbsp;<Typography
+                                sx={{ color: colors.darkWhite }}
+                            >{option.description}</Typography>
+                        </>
+                    ) : ""}
                     {/* </Tooltip> */}
                 </MenuItem>
             ))}
@@ -455,7 +459,7 @@ type CrucibleResultsProps = {
     disableBackwards?: boolean;
     color?: string;
     textColor?: string;
-    showOptionsButtons: boolean;
+    showOptionsButtons?: boolean;
 };
 
 export default function Crucible({
@@ -474,9 +478,11 @@ export default function Crucible({
     buttons = true,
     enableSwap = true,
     disableBackwards = false,
+    selectOnePerTable = true,
 }: {
     tables: string[][][];
     titles?: string[];
+    selectOnePerTable?: boolean;
 } & CrucibleResultsProps) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const [selectedInTables, setSelectedInTables] = useState<string[][]>(
@@ -513,7 +519,13 @@ export default function Crucible({
     const roll = (_e: React.MouseEvent) => {
         rollDiceAnimation(rollButtonRef);
         const newSelectedInTables = [];
-        for (const i in tables) {
+        let indices;
+        if (selectOnePerTable) {
+            indices = tables.map((_, i) => i);
+        } else {
+            indices = tables.map(() => d(tables.length));
+        }
+        for (const i of indices) {
             const rows = tables[i].length;
             const columns = tables[i][0].length;
             const singleResult = rows != columns;

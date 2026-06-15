@@ -3,6 +3,8 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import AnchorIcon from '@mui/icons-material/Anchor';
+import RedeemIcon from '@mui/icons-material/Redeem';
 import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
@@ -112,19 +114,42 @@ export default function Home() {
             <SectionHeader title="CRUCIBLES" top={true} />
             <Section title="MOXIE">
                 <ButtonItem title="GM" Icon={TipsAndUpdatesIcon} to="crucible/gm" />
+                <ButtonItem
+                    title="Personality"
+                    Icon={PsychologyAltIcon}
+                    to="crucible/personality"
+                />
+                <ButtonItem title="Distinctive Features" Icon={PeopleIcon} />
             </Section>
             <Section title="GRIMWILD">
                 <ButtonItem title="Heritage" Icon={CottageIcon} to="crucible/heritage" />
+                <ButtonItem
+                    title="Weapon Styles"
+                    Icon={RestaurantMenuIcon}
+                    to="crucible/weaponstyles"
+                />
+                <ButtonItem
+                    title="Wises"
+                    Icon={AutoStoriesIcon}
+                    to="crucible/wises"
+                />
+                <ButtonItem 
+                    title="Ritual Anchors"
+                    Icon={AnchorIcon} 
+                    to="crucible/anchors"
+                />
+                <ButtonItem 
+                    title="Treasure"
+                    Icon={RedeemIcon} 
+                    to="crucible/treasure"
+                />
+            </Section>
+            <Section title="GRIMWILD - PATHS">
                 <ButtonItem title="Spells" Icon={AutoFixHighIcon} to="crucible/spell" />
                 <ButtonItem
                     title="Weapon Origin"
                     Icon={ShieldMoonIcon}
                     to="crucible/weaponorigin"
-                />
-                <ButtonItem
-                    title="Weapon Styles"
-                    Icon={RestaurantMenuIcon}
-                    to="crucible/weaponstyles"
                 />
                 <ButtonItem
                     title="Warlock Patron"
@@ -149,19 +174,8 @@ export default function Home() {
                 />
                 <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
                 <ButtonItem title="Words of Power" Icon={AssistantIcon} to="crucible/wordsofpower" />
-                <ButtonItem
-                    title="Wises"
-                    Icon={AutoStoriesIcon}
-                    to="crucible/wises"
-                />
-                <ButtonItem
-                    title="Personality"
-                    Icon={PsychologyAltIcon}
-                    to="crucible/personality"
-                />
-                <ButtonItem title="Distinctive Features" Icon={PeopleIcon} />
             </Section>
-            <Section title="GRIMWILD ARCANA">
+            <Section title="GRIMWILD - ARCANA">
                 <ButtonItem title="Arcana (Arcane) " Icon={AutoFixHighIcon} to="crucible/arcanaarcane" />
                 <ButtonItem title="Arcana (Divine) " Icon={FlareIcon} to="crucible/arcanadivine" />
                 <ButtonItem title="Arcana (Eldritch) " Icon={VisibilityIcon} to="crucible/arcanaeldritch" />
@@ -169,7 +183,7 @@ export default function Home() {
                 <ButtonItem title="Arcana (Tech) " Icon={SettingsSuggestIcon} to="crucible/arcanatech" />
                 <ButtonItem title="Potions" Icon={ScienceIcon} to="crucible/potions" />
             </Section>
-            <Section title="GRIMWILD EXPLORATION">
+            <Section title="GRIMWILD - EXPLORATION">
                 <ButtonItem title="Buildings" Icon={CottageIcon} />
                 <ButtonItem title="Settlements" Icon={Square} />
                 <ButtonItem title="Settlement Names" Icon={CottageIcon} />
