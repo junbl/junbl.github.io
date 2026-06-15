@@ -3,6 +3,7 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import CottageIcon from "@mui/icons-material/Cottage";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
 import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AssistantIcon from '@mui/icons-material/Assistant';
@@ -135,6 +136,11 @@ export default function Home() {
                     Icon={SportsMartialArtsIcon}
                     to="crucible/martialarts"
                 />
+                <ButtonItem
+                    title="Instrument"
+                    Icon={MusicNoteIcon}
+                    to="crucible/bardinstrument"
+                />
                 <ButtonItem title="Wild Surge" Icon={FlareIcon} to="crucible/wildsurge" />
                 <ButtonItem title="Words of Power" Icon={AssistantIcon} to="crucible/wordsofpower" />
                 <ButtonItem
@@ -142,12 +148,12 @@ export default function Home() {
                     Icon={AutoStoriesIcon}
                     to="crucible/wises"
                 />
-                <ButtonItem title="Distinctive Features" Icon={PeopleIcon} />
                 <ButtonItem
                     title="Personality"
                     Icon={PsychologyAltIcon}
                     to="crucible/personality"
                 />
+                <ButtonItem title="Distinctive Features" Icon={PeopleIcon} />
             </Section>
             <Section title="GRIMWILD ARCANA">
                 <ButtonItem title="Arcana (Arcane) " Icon={AutoFixHighIcon} to="crucible/arcanaarcane" />

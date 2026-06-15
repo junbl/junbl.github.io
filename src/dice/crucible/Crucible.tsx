@@ -497,7 +497,9 @@ export default function Crucible({
         rollDiceAnimation(rollButtonRef);
         const newSelectedInTables = [];
         for (const i in tables) {
-            newSelectedInTables.push(getSelected(tables[i], d6(), d6()));
+            const rows = tables[i].length;
+            const columns = tables[i][0].length;
+            newSelectedInTables.push(getSelected(tables[i], d(rows), d(columns)));
         }
         setSelectedInTables(newSelectedInTables);
     };
