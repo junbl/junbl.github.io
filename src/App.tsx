@@ -51,6 +51,10 @@ const crucibleRoutes = [
     "Potions",
     "BygoneArtifacts",
     "WeaponStyles",
+    "Anchors",
+    "AnchorsIntangible",
+    "AnchorsTangible",
+    "Treasure",
 ].map(crucibleRoute);
 
 const router = createBrowserRouter([

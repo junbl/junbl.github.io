@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Minor",
+    "color": "cyan",
+    "description": "trained horse, a few jewels, noble clothing, a few mercenaries, minor arcana."
+  },
+  {
+    "name": "Major",
+    "color": "blue",
+    "description": " an estate, artistic masterpiece, help from a city, major arcana, sailing ship."
+  },
+  {
+    "name": "Mythic",
+    "color": "pink",
+    "description": "castle, an army, complex ritual, the royal treasury, spirit bound to service."
+  }
+]
