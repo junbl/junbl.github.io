@@ -4,7 +4,7 @@ import HeaderFooter from "../HeaderFooter";
 
 export default function BardInstrument() {
     return (
-        <HeaderFooter title="Bard Instrument" back="/dice">
+        <HeaderFooter title="Bard Instrument Crucible" back="/dice">
             <Crucible tables={[content]} />
         </HeaderFooter>
     );

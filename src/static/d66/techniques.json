@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Attack",
+    "color": "red",
+    "description": "Lash out to deal direct harm or destruction."
+  },
+  {
+    "name": "Enhance",
+    "color": "orange",
+    "description": "Temporarily boost senses, ability, or bestow something new."
+  },
+  {
+    "name": "Hinder",
+    "color": "teal",
+    "description": "Impede or debilitate others or areas."
+  },
+  {
+    "name": "Influence",
+    "color": "pink",
+    "description": "Alter thoughts, emotions, or perceptions."
+  },
+  {
+    "name": "Protect",
+    "color": "cyan",
+    "description": "Defend yourself and others from outside harm or influence."
+  },
+  {
+    "name": "Restore",
+    "color": "yellow",
+    "description": "Heal wounds, cleanse maladies, and mend materials."
+  },
+  {
+    "name": "Reveal",
+    "color": "white",
+    "description": "Sense and reveal the hidden, and uncover new information."
+  },
+  {
+    "name": "Summon",
+    "color": "green",
+    "description": "Manifest objects, creatures, or forces themselves."
+  },
+  {
+    "name": "Transform",
+    "color": "yellow",
+    "description": "Change the nature or form of the subject."
+  },
+  {
+    "name": "Traverse",
+    "color": "green",
+    "description": "Move across space, through barriers, or in a new way."
+  }
+]

@@ -1,5 +1,6 @@
 import { Box, Container, Link, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { colors } from "../theme"
 
 export default function GrimwildFooter() {
     return (
@@ -11,7 +12,8 @@ export default function GrimwildFooter() {
                     display: "flex",
                     flexDirection: "column",
                     minHeight: "100px",
-                    backgroundColor: (theme) => theme.palette.grey[800],
+                    // backgroundColor: (theme) => theme.palette.grey[800],
+                    backgroundColor: colors.gray,
                 }}
             >
                 <Container maxWidth="md">
@@ -35,7 +37,7 @@ export default function GrimwildFooter() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Oddity Press
+                            Oddity Press&nbsp;
                             <OpenInNewIcon fontSize="inherit" />
                         </Link>{" "}
                         for more information!

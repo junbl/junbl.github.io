@@ -11,27 +11,48 @@ export const colors = {
     purple: "#bf94e6",
     pink: "#F48FB1",
     white: "#e8e8e8",
-    darkWhite: "#b4b4bf",
-    lightGray: "#a2a3a6",
-    gray: "#424346",
-    darkGray: "#262626",
-    black: "#1D1F28",
+    darkWhite: "#b4b4cf",
+    lightGray: "#a2a3c6",
+    gray: "#424356",
+    // darkGray: "#262626",
+    darkGray: "#1a1d23",
+    // black: "#1D1F28",
+    black: "#111317",
+
 };
 
 export const darkTheme = createTheme({
+    shape: {
+        borderRadius: 16,
+    },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: ({ownerState}) => ({
+                    borderRadius: ownerState.size === 'large' ? 36 : 24,
+                    ...(ownerState.size === 'large' && {  
+                    paddingLeft: "24px",
+                    paddingRight: "24px",
+          })
+                }),
+            },
+        },
+    },
     typography: {
+        fontFamily: `"Averia Serif Libre", "Hanken Grotesk", sans-serif`,
         fontSize: 14,
     },
     palette: {
         mode: "dark",
         background: {
             default: colors.darkGray,
+            paper: colors.darkGray,
         },
         text: {
             primary: colors.white,
         },
         primary: {
-            main: colors.blue,
+            main: colors.purple,
             light: colors.white,
             // contrastText: colors.white,
         },

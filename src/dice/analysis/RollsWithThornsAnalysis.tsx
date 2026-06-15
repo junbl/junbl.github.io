@@ -27,7 +27,6 @@ import _ from "lodash";
 import { colors } from "../../theme";
 import { proportionFormat } from "./DiminishingPoolsAnalysis";
 import binomcoef from "@stdlib/math-base-special-binomcoef";
-import { Settings } from "@mui/icons-material";
 import { parseFraction } from ".";
 
 const data: Record<string, Record<string, (typeof rollsData)["1"]["0"]>> = rollsData;
@@ -394,7 +393,7 @@ export default function RollsWithThornsAnalysis() {
                             />
                             {/* {remapError ? <Alert severity="error">{remapError}</Alert> : null} */}
                             <TextField
-                                variant="filled"
+                                variant="outlined"
                                 value={grimProb}
                                 disabled={fivesAsSixesFoursAsOnes}
                                 onChange={(e) => {
@@ -408,7 +407,7 @@ export default function RollsWithThornsAnalysis() {
                             ></TextField>
 
                             <TextField
-                                variant="filled"
+                                variant="outlined"
                                 value={perfectProb}
                                 disabled={fivesAsSixesFoursAsOnes}
                                 onChange={(e) => {
@@ -421,7 +420,7 @@ export default function RollsWithThornsAnalysis() {
                                 sx={{ minWidth: "270px" }}
                             ></TextField>
                             <TextField
-                                variant="filled"
+                                variant="outlined"
                                 value={cutProb}
                                 onChange={(e) => {
                                     const newValue = e.target.value;
