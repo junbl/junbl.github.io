@@ -6,7 +6,7 @@ import HeaderFooter from "../HeaderFooter";
 
 export default function Barriers() {
     return (
-        <HeaderFooter title="Barriers" back="/dice" >
+        <HeaderFooter title="Barriers Crucible" back="/dice" >
             <Crucible
                 disableBackwards={true}
                 tables={[barrier1, barrier2]}

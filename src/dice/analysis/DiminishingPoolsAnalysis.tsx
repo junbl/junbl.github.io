@@ -252,7 +252,7 @@ export default function DiminishingPoolAnalysis() {
 
                                 <Bar
                                     dataKey="proportion"
-                                    fill={colors.blue}
+                                    fill={colors.purple}
                                     activeBar={
                                         <Rectangle fill={colors.pink} stroke={colors.black} />
                                     }

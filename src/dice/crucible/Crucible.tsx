@@ -63,8 +63,9 @@ function CrucibleResults({
     enableThe = defaultThe,
     enableOf = true,
     enableSwap = true,
-    color = undefined,
-    textColor = undefined,
+    showOptionsButtons = true,
+    // color = undefined,
+    // textColor = undefined,
 }: { options: string[][] } & CrucibleResultsProps) {
     const rollButtonRef = useRef<SVGSVGElement>(null);
     const defaultSelection = () => {
@@ -197,7 +198,7 @@ function CrucibleResults({
                     }}
                 >
                     <Grid container justifyContent="center" alignItems="center" rowSpacing="5px">
-                        {options.map((row, rowIndex) =>
+                        {showOptionsButtons && options.map((row, rowIndex) =>
                             row.map((option) => {
                                 let optionSelectedIndex = -1;
                                 let optionIsSelected = false;
@@ -279,10 +280,12 @@ function CrucibleResults({
                                             s = s.replace(/'s$/, "s");
                                         }
 
-                                        squish = s.startsWith("-");
+                                        squish = s.startsWith("-")
+                                            || selected[i - 1]?.endsWith("-");
                                         if (squish) {
                                             s = s.replace(/^-/, "");
                                         }
+                                        s = s.replace(/-$/, "");
                                         if (
                                             (selected.includes("Two") ||
                                                 selected.includes("Three")) &&
@@ -301,61 +304,6 @@ function CrucibleResults({
                                 })}
                             </Typography>
                         </Grid>
-                        {buttons ? (
-                            <Grid container item xs={12} spacing="5px" justifyContent="center">
-                                {enableSwap ? (
-                                    <Grid item>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<SwapHorizIcon />}
-                                            onClick={swap}
-                                        >
-                                            Swap
-                                        </Button>
-                                    </Grid>
-                                ) : null}
-                                {enableOf ? (
-                                    <Grid item>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={of ? <RemoveIcon /> : <AddIcon />}
-                                            onClick={() => {
-                                                setOf((of) => !of);
-                                            }}
-                                        >
-                                            Of
-                                        </Button>
-                                    </Grid>
-                                ) : null}
-                                {enableThe ? (
-                                    <Grid item>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={the ? <RemoveIcon /> : <AddIcon />}
-                                            onClick={() => {
-                                                setThe((the) => !the);
-                                            }}
-                                        >
-                                            the
-                                        </Button>
-                                    </Grid>
-                                ) : null}
-                                {enableOf && enableSwap ? (
-                                    <Grid item>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<SwapCallsIcon />}
-                                            onClick={() => {
-                                                swap();
-                                                setOf((of) => !of);
-                                            }}
-                                        >
-                                            Swap and Toggle Of
-                                        </Button>
-                                    </Grid>
-                                ) : null}
-                            </Grid>
-                        ) : null}
                         {additionalOptions != null && selectedAdditionalOption != null && (
                             <Grid item xs={12}>
                                 <AdditionalOptions
@@ -369,6 +317,61 @@ function CrucibleResults({
                 </div>
             </CardContent>
             <CardActions>
+                {buttons ? (
+                    <Grid container item xs={12} spacing="5px" justifyContent="right">
+                        {enableSwap ? (
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<SwapHorizIcon />}
+                                    onClick={swap}
+                                >
+                                    Swap
+                                </Button>
+                            </Grid>
+                        ) : null}
+                        {enableOf ? (
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={of ? <RemoveIcon /> : <AddIcon />}
+                                    onClick={() => {
+                                        setOf((of) => !of);
+                                    }}
+                                >
+                                    Of
+                                </Button>
+                            </Grid>
+                        ) : null}
+                        {enableThe ? (
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={the ? <RemoveIcon /> : <AddIcon />}
+                                    onClick={() => {
+                                        setThe((the) => !the);
+                                    }}
+                                >
+                                    the
+                                </Button>
+                            </Grid>
+                        ) : null}
+                        {enableOf && enableSwap ? (
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<SwapCallsIcon />}
+                                    onClick={() => {
+                                        swap();
+                                        setOf((of) => !of);
+                                    }}
+                                >
+                                    Swap and Toggle Of
+                                </Button>
+                            </Grid>
+                        ) : null}
+                    </Grid>
+                ) : null}
                 <Tooltip title="Select new options without rerolling on the tables">
                     <IconButton
                         onClick={() => {
@@ -401,21 +404,27 @@ function AdditionalOptions({
     return (
         <Select
             value={selectedString}
-            // label="School of Magic"
             onChange={(e: SelectChangeEvent) => setSelected(e.target.value)}
+            renderValue={(s) => {
+                return options[Number(s)].name;
+            }}
             autoWidth
             sx={{
                 minWidth: "200px",
-                marginTop: "20px",
-                fontSize: "14pt",
+                marginTop: "0px",
+                marginBottom: "0px",
+                fontSize: "16pt",
                 border: `2px solid ${selectedColor && colors[selectedColor]}`,
             }}
         >
             {options.map((option, index) => (
                 <MenuItem key={option.name} value={index}>
-                    <Tooltip enterDelay={500} placement="right" title={option.description}>
-                        <div>{option.name}</div>
-                    </Tooltip>
+                    {/* <Tooltip enterDelay={500} placement="right" title={option.description}> */}
+                    {/* <div> */}
+                    {option.name}:&nbsp;<Typography
+                        sx={{ color: colors.darkWhite }}
+                    >{option.description}</Typography>
+                    {/* </Tooltip> */}
                 </MenuItem>
             ))}
         </Select>
@@ -428,7 +437,7 @@ function rollDiceAnimation(rollButtonRef: React.RefObject<SVGSVGElement>) {
         rollButton.classList.add("roll-dice");
         setTimeout(() => {
             rollButton.classList.remove("roll-dice");
-        }, 400);
+        }, 600);
     }
 }
 
@@ -446,6 +455,7 @@ type CrucibleResultsProps = {
     disableBackwards?: boolean;
     color?: string;
     textColor?: string;
+    showOptionsButtons: boolean;
 };
 
 export default function Crucible({
@@ -475,12 +485,27 @@ export default function Crucible({
     const [manualInput, setManualInput] = useState(false);
     const [manualRolls, setManualRolls] = useState("");
 
-    const getSelected = (table: string[][], row: number, column: number) => {
+    let allSingleResult = true;
+    for (const t of tables) {
+        const rows = t.length;
+        const columns = t[0].length;
+        if (rows == columns) {
+            allSingleResult = false;
+            break;
+        }
+    }
+
+    const getSelected = (
+        table: string[][],
+        row: number,
+        column: number,
+        singleResult: boolean = false
+    ) => {
         const selected = [];
         const rc = table[row][column];
         const cr = table[column][row];
         selected.push(rc);
-        if (rc != cr) {
+        if (!singleResult && rc != cr) {
             selected.push(cr);
         }
         return selected;
@@ -489,7 +514,10 @@ export default function Crucible({
         rollDiceAnimation(rollButtonRef);
         const newSelectedInTables = [];
         for (const i in tables) {
-            newSelectedInTables.push(getSelected(tables[i], d6(), d6()));
+            const rows = tables[i].length;
+            const columns = tables[i][0].length;
+            const singleResult = rows != columns;
+            newSelectedInTables.push(getSelected(tables[i], d(rows), d(columns), singleResult));
         }
         setSelectedInTables(newSelectedInTables);
     };
@@ -508,7 +536,7 @@ export default function Crucible({
             }
             setSelectedInTables(newSelectedInTables);
         }
-    }, 200);
+    }, 300);
     useEffect(updateRolls, [manualRolls]);
 
     return (
@@ -524,7 +552,7 @@ export default function Crucible({
                         >
                             {manualInput ? (
                                 <TextField
-                                    variant="filled"
+                                    variant="outlined"
                                     value={manualRolls}
                                     onChange={(e) => {
                                         const newValue = e.target.value;
@@ -549,6 +577,7 @@ export default function Crucible({
                                     onClick={roll}
                                     startIcon={<CasinoIcon ref={rollButtonRef} />}
                                     sx={{
+                                        borderRadius: "36px",
                                         minHeight: "50px",
                                         minWidth: "100px",
                                         fontSize: "20pt",
@@ -597,6 +626,7 @@ export default function Crucible({
                                 buttons={buttons}
                                 color={color}
                                 textColor={textColor}
+                                showOptionsButtons={!allSingleResult}
                             />
                         </div>
                     </Grid>

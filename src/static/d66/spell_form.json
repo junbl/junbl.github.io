@@ -1,8 +1,1 @@
-[
-    ["Beacon", "Servant", "Vision", "Sentinel", "Ray", "Poison"],
-    ["Ring", "Crown", "Disk", "Web", "Guide", "Embers"],
-    ["Chains", "Word", "Fang", "Gate", "Wall", "Dark"],
-    ["Eye", "Aura", "Gust", "Whispers", "Wings", "Wave"],
-    ["Cascade", "Shield", "Swarm", "Pillar", "Claw", "Dream"],
-    ["Bubble", "Hand", "Dance", "Explosion", "Mask", "Rot"]
-]
+[["Beacon", "Ring", "Chains", "Eye", "Lock", "Bubble"], ["Servant", "Crown", "Word", "Aura", "Shield", "Hand"], ["Vision", "Bond", "Step", "Gust", "Swarm", "Dance"], ["Sentinel", "Shift", "Gate", "Tendril", "Pillar", "Explosion"], ["Ray", "Guide", "Wall", "Wings", "Claw", "Anchor"], ["Spray", "Embers", "Bolt", "Wave", "Dream", "Field"]]

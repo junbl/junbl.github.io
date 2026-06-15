@@ -1,8 +1,1 @@
-[
-    ["Oil", "Earth", "Lore", "Lightning", "Ash", "Thorn"],
-    ["Crystal", "Air", "Fire", "Spirit", "Acid", "Vine"],
-    ["Slime", "Fungus", "Death", "Stasis", "Sound", "Water"],
-    ["Light", "Hex", "Blight", "Terror", "Mind", "Draught"],
-    ["Doom", "Smoke", "Sight", "Mist", "Vermin", "Wood"],
-    ["Pain", "Energy", "Feeling", "Bone", "Flesh", "Worm"]
-]
+[["Oil", "Crystal", "Slime", "Light", "Gravity", "Echo"], ["Earth", "Air", "Spore", "Star", "Smoke", "Death"], ["Lore", "Fire", "Shroud", "Trick", "Sight", "Bone"], ["Spirit", "Lightning", "Stasis", "Siphon", "Mist", "Mirror"], ["Ash", "Acid", "Sound", "Thought", "Bloom", "Emotion"], ["Barb", "Memory", "Water", "Rift", "Poison", "Growth"]]

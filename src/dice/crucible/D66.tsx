@@ -1,5 +1,7 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Theme } from "@mui/material";
+import { Chip, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
+import { colors } from "../../theme";
 
 export type SelectedCell = {
     row: number;
@@ -22,9 +24,17 @@ export default function D66({
 }) {
     const classes = useStyles();
     return (
-        <TableContainer component={(props) => <Paper className={classes.root} {...props}></Paper>}>
+        <TableContainer //component={(props) => <Paper className={classes.root} {...props}></Paper>}
+        >
             {/* <Table padding={{xs: "none", sm: "normal"}}> */}
-            <Table size="small">
+            <Table
+                size="small"
+                sx={{
+                    [`& .${tableCellClasses.root}`]: {
+                        borderBottom: "none"
+                    }
+                }}
+            >
                 <TableBody>
                     {table.map((row, r) => (
                         <TableRow
@@ -42,20 +52,40 @@ export default function D66({
                                 <TableCell
                                     className={classes.table}
                                     key={cell + c}
-                                    sx={
-                                        selected && selected.includes(cell)
-                                            ? {
-                                                  backgroundColor:
-                                                      color ||
-                                                      ((theme) => theme.palette.primary.main),
-                                                  color:
-                                                      textColor ||
-                                                      ((theme) => theme.palette.background.default),
-                                              }
-                                            : undefined
-                                    }
                                 >
-                                    {cell}
+                                    {selected && selected.includes(cell) ?
+                                        <Chip
+                                            label={cell}
+                                            variant="outlined"
+                                            size="small"
+                                            color="primary"
+                                        />
+                                        :
+                                        <Chip
+                                            label={cell}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{ borderWidth: "0px" }}
+                                        />
+                                    }
+                                    {/* <Chip 
+                                        label={cell}
+                                        sx={
+                                            selected && selected.includes(cell)
+                                                ? {
+                                                    // borderRadius: "20px",
+                                                    backgroundColor:
+                                                        color ||
+                                                        ((theme) => theme.palette.primary.main),
+                                                    color:
+                                                        textColor ||
+                                                        ((theme) => theme.palette.background.default),
+                                                }
+                                                : undefined
+                                        }
+
+                                    />
+*/}
                                 </TableCell>
                             ))}
                         </TableRow>

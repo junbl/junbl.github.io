@@ -27,6 +27,7 @@ export default function HeaderFooter({
     setSettingsDialogOpen?: Dispatch<SetStateAction<boolean>>;
 }>) {
     document.title = title;
+    title = title.toLocaleUpperCase();
     return (
         <>
             <Toolbar sx={{ backgroundColor: colors.gray }}>

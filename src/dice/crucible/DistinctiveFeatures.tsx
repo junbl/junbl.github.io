@@ -8,7 +8,7 @@ import HeaderFooter from "../HeaderFooter";
 
 export default function DistinctiveFeatures() {
     return (
-        <HeaderFooter title="Distinctive Features" back="/dice">
+        <HeaderFooter title="Distinctive Features Crucible" back="/dice">
             <Crucible
                 buttons={false}
                 enableOf={false}
