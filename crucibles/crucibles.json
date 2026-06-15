@@ -1,5 +1,8 @@
 [
     "age.json",
+    "anchors.json",
+    "anchors_intangible.json",
+    "anchors_tangible.json",
     "arcana_arcane.json",
     "arcana_divine.json",
     "arcana_eldritch.json",
@@ -53,6 +56,8 @@
     "spell_form.json",
     "spell_style.json",
     "techniques.json",
+    "tiers.json",
+    "treasure.json",
     "voice.json",
     "weapon_origin.json",
     "weapon_styles.json",
